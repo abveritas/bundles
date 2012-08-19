@@ -1,7 +1,7 @@
 # Maintainer: Anke Boersma <abveritas@chakra-project.org>
 
 pkgname=chrome-dev
-pkgver=22.0.1229.2
+pkgver=22.0.1229.8
 pkgrel=1
 pkgdesc="Google Chrome Developer preview channel for Linux"
 arch=('i686' 'x86_64')
@@ -45,6 +45,9 @@ build() {
     msg "Actual installation"
     cd $pkgdir/usr/bin/
     ln -sv ../../opt/google/chrome/google-chrome
+    
+    # Udev workaround
+    ln -s /usr/lib/libudev.so.1 "$pkgdir/opt/google/chrome/libudev.so.0"
 
     cd $pkgdir/opt/google/chrome
     ln -sv ../../../usr/lib/mozilla/plugins
