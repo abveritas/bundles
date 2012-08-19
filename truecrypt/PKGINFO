@@ -1,0 +1,9 @@
+name=truecrypt
+desktop=truecrypt.desktop
+icon=truecrypt.png
+config=external
+binary=
+pkgz=gtk2 fuse libsm device-mapper libjpeg libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache wxgtk truecrypt
+build=orbit2 atk libtasn1 gnutls gdk-pixbuf2 gtk2 fuse libsm readline device-mapper libjpeg libcups libgnomecups libart-lgpl libgnomeprint perl-xml-simple icon-naming-utils hicolor-icon-theme gnome-icon-theme libglade libgnomecanvas libgnomeprintui gstreamer0.10-base gstreamer0.10-base-plugins mesa ccache libidl2  gconf libxxf86vm wxgtk truecrypt
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/wx
+exec=/usr/bin/truecrypt

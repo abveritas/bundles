@@ -1,0 +1,40 @@
+#
+# Chakra Packages for Chakra, part of chakra-project.org
+#
+# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
+# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+
+pkgname=firefox-nightly
+pkgdesc='Standalone web browser from mozilla.org, nightly build'
+url='http://www.mozilla.org/projects/firefox'
+pkgver=17.0a1
+pkgrel=1
+arch=('i686' 'x86_64')
+license=('MPL' 'GPL' 'LGPL')
+source=('firefox-nightly.desktop' 'firefox-nightly-safe.desktop' 'duckduckgo.xml')
+md5sums=('5e21497da8549b55a788c7db11e5f1c9'
+         'a0635837f33dec0f8714f871a9006c43'
+         'f6e2a6759b8711b445dbc9d35cbd275f')
+depends=('alsa-lib' 'libxt' 'libnotify' 'mime-types' 'nss' 'gtk2' 'sqlite3' 'dbus-glib')
+
+package() {
+  FX_SRC="firefox-${pkgver}.en-US.linux-${CARCH}.tar.bz2"
+  FX_SRC_URI="http://ftp.mozilla.org/pub/firefox/nightly/latest-trunk/${FX_SRC}"
+
+  msg "Downloading..."
+  wget -N ${FX_SRC_URI}
+  msg "Extracting..."
+  bsdtar -x -f ${FX_SRC}
+  msg "Packaging..."
+
+#   uncomment this line to remove these
+#   rm -rf firefox/{extensions,plugins,searchplugins}
+
+  mkdir -p "${pkgdir}"/{usr/{bin,share/{applications,pixmaps}},opt}
+  cp -r firefox "${pkgdir}/opt/firefox-${pkgver}"
+
+  ln -s /opt/firefox-${pkgver}/firefox "${pkgdir}/usr/bin/firefox-nightly"
+  install -m644 "${srcdir}"/{firefox-nightly.desktop,firefox-nightly-safe.desktop} "${pkgdir}/usr/share/applications/"
+  install -m644 "${srcdir}/firefox/icons/mozicon128.png" "${pkgdir}/usr/share/pixmaps/${pkgname}-icon.png"
+  install -m644 "${srcdir}"/duckduckgo.xml "${pkgdir}/opt/firefox-${pkgver}/searchplugins/duckduckgo.xml"
+}

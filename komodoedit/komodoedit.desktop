@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Komodo Edit 6
+GenericName=Editor
+Comment=Free multi-platform editor that makes it easy to write quality code.
+Exec=komodoedit %F
+Icon=komodo.png
+Terminal=false
+Type=Application
+MimeType=text/plain;
+Categories=ActiveState;Application;Development;Editor;Utility;TextEditor;

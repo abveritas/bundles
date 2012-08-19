@@ -1,0 +1,8 @@
+name=scummvm
+desktop=scummvm.desktop
+icon=scummvm.png
+screenshot=http://4.bp.blogspot.com/_3MmgYyQDa8Y/SXHE2hGK_NI/AAAAAAAAACU/PAB_dSP0tB0/s1600-h/scummvm.jpg
+pkgz=scummvm
+build=libmad sdl alsa-lib scummvm
+env==
+exec=/usr/bin/scummvm

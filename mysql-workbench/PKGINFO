@@ -1,0 +1,13 @@
+version=5.2.40
+release=1
+description=MySQL Workbench provides an integrated tools environment for: Database Design & Modeling, SQL Development, Database Administration.
+url=http://wb.mysql.com
+packager=Daniele Cocca <jmc@chakra-project.org>
+name=mysql-workbench
+screenshot=http://wb.fabforce.eu/wp-content/uploads/wb_diagam_zoomed_out1.png
+desktop=MySQLWorkbench.desktop
+icon=MySQLWorkbench.png
+pkgz=atk glibc glib2 gdk-pixbuf2 cairo pango gtk2 atkmm glibmm cairomm pangomm gtkmm lua libmysqlclient libpng12 libgl python2 sqlite3 libxml2 libzip zlib python-paramiko python-pexpect python-pysqlite boost-libs libzip libsigc++ libglade gnome-mime-data gnome-common libbonobo gnome-vfs pycrypto pcre ctemplate mysql-workbench
+build=atk glibc glib2 gdk-pixbuf2 cairo pango gtk2 atkmm glibmm cairomm pangomm gtkmm lua libmysqlclient libpng12 libgl python2 sqlite3 libxml2 libzip zlib pycrypto python-paramiko python-pexpect python-pysqlite boost-libs libzip libsigc++ libglade gnome-mime-data gnome-common libbonobo gtk-doc gnome-vfs curl pcre ctemplate mysql-workbench
+env==PYTHONPATH=$ORIGIN/usr/lib/python2.7/site-packages,,,LD_LIBRARY_PATH=$ORIGIN/usr/lib/mysql-workbench:$ORIGIN/usr/lib:$ORIGIN/lib
+exec=/usr/bin/mysql-workbench

@@ -1,0 +1,24 @@
+# Maintainer: abveritas@chakra-project.org
+
+pkgname=chromium-pepper-flash
+pkgver=11.3.31.303
+pkgrel=1
+pkgdesc="Google Chrome's Pepper Flash plugin for Chromium"
+arch=('i686' 'x86_64')
+_carch="$CARCH"
+[ "$CARCH" = 'i686' ] && _carch='i386'
+url="http://wiki.archlinux.org/index.php/Chromium#Flash_Player"
+license=('custom')
+optdepends=('pulseaudio-alsa: For PulseAudio users')
+source=(http://dl.google.com/dl/linux/direct/google-chrome-unstable_current_${_carch}.rpm)
+md5sums=('3f080e3312a9e2a63322b6f2fcbf4669')
+[ "$CARCH" = 'i686' ] && md5sums=('8b065fac780ec621a5361a0dea714a20')
+install=pepper.install
+
+package() {
+  msg "Extracting Sources..."
+  bsdtar -xf google-chrome-unstable_current_${_carch}.rpm opt/google/chrome/PepperFlash
+
+  install -d "$pkgdir/usr/lib/PepperFlash"
+  install -m644 opt/google/chrome/PepperFlash/* "$pkgdir/usr/lib/PepperFlash"
+}

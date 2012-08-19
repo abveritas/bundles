@@ -1,0 +1,55 @@
+--- mozilla-1.9.2/xulrunner/app/nsRegisterGREUnix.cpp.orig	2010-08-02 05:46:17.704057411 -0400
++++ mozilla-1.9.2/xulrunner/app/nsRegisterGREUnix.cpp	2010-08-02 05:47:06.184065094 -0400
+@@ -130,7 +130,7 @@
+ 
+   nsresult rv;
+ 
+-  char root[MAXPATHLEN] = "/etc/gre.d";
++  char root[MAXPATHLEN] = "/etc/cb.conf.d";
+ 
+   if (!aRegisterGlobally) {
+     char *home = PR_GetEnv("HOME");
+@@ -222,7 +222,7 @@
+ {
+   nsresult rv;
+ 
+-  char root[MAXPATHLEN] = "/etc/gre.d";
++  char root[MAXPATHLEN] = "/etc/cb.conf.d";
+ 
+   if (!aRegisterGlobally) {
+     char *home = PR_GetEnv("HOME");
+
+--- mozilla-1.9.2/xpcom/build/nsXPCOMPrivate.h.orig	2010-08-02 09:55:17.168246373 +0000
++++ mozilla-1.9.2/xpcom/build/nsXPCOMPrivate.h	2010-08-02 09:55:37.604099525 +0000
+@@ -281,7 +281,7 @@
+ 
+ #define GRE_CONF_NAME ".gre.config"
+ #define GRE_CONF_PATH "/etc/gre.conf"
+-#define GRE_CONF_DIR  "/etc/gre.d"
++#define GRE_CONF_DIR  "/etc/cb.conf.d"
+ #define GRE_USER_CONF_DIR ".gre.d"
+ #endif
+ 
+--- mozilla-1.9.2/extensions/java/xpcom/interfaces/org/mozilla/xpcom/Mozilla.java.orig	2010-08-02 09:57:42.444898024 +0000
++++ mozilla-1.9.2/extensions/java/xpcom/interfaces/org/mozilla/xpcom/Mozilla.java	2010-08-02 09:58:09.524091075 +0000
+@@ -471,7 +471,7 @@
+     final String greUserConfFile = ".gre.config";
+     final String greUserConfDir = ".gre.d";
+     final String greConfPath = "/etc/gre.conf";
+-    final String greConfDir = "/etc/gre.d";
++    final String greConfDir = "/etc/cb.conf.d";
+ 
+     env = System.getProperty("user.home");
+     if (env != null) {
+
+--- mozilla-1.9.2/xulrunner/installer/Makefile.in.orig	2010-08-02 09:59:56.320675537 +0000
++++ mozilla-1.9.2/xulrunner/installer/Makefile.in	2010-08-02 10:00:20.130639080 +0000
+@@ -73,7 +73,7 @@
+ 
+ ifndef SKIP_GRE_REGISTRATION
+ # to register xulrunner per-user, override this with $HOME/.gre.d
+-regdir = /etc/gre.d
++regdir = /etc/cb.conf.d
+ 
+ install:: $(MOZILLA_VERSION).system.conf
+         $(NSINSTALL) -D $(DESTDIR)$(regdir)

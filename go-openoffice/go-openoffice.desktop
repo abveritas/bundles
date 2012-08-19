@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Go-OpenOffice
+Comment=OpenOffice.org - go-oo.org enhanced version of SUN's office suite
+Exec=go-openoffice
+Icon=go-openoffice.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Office-Suite;Application;

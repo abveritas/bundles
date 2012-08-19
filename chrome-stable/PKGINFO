@@ -1,0 +1,8 @@
+name=chrome-stable
+desktop=chrome-stable.desktop
+icon=chrome-stable.png
+chroot=true
+pkgz=gcc-libs libjpeg-turbo krb5 libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nspr nss gconf freetype2 cairo alsa-lib libxss hicolor-icon-theme perl libpng12 openssl-compatibility chrome-stable
+build=gcc-libs nasm libjpeg-turbo krb5 libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nspr nss gconf freetype2 cairo alsa-lib libxss hicolor-icon-theme perl libpng12 openssl-compatibility chrome-stable
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/opt/google/chrome/lib:$ORIGIN/usr/lib/mozilla/plugins
+exec=/opt/google/chrome/google-chrome

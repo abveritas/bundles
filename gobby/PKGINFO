@@ -1,0 +1,12 @@
+# contributor: Tenshi Hinanawi (iruel)
+
+name=gobby
+desktop=gobby.desktop
+icon=gobby.png
+chroot=true
+binary=
+env==
+pkgz=avahi bzip2 fam gconf gnome-mime-data hal krb5 smbclient gtkmm libidl2 orbit2 atk libtasn1 gnutls gdk-pixbuf2 gtk2 pango pangomm glibmm gtksourceview2 gnome-vfs libxml2 libbonobo libgtksourceviewmm2 libxml++ glibmm-docs net6 obby libsigc++2.0 gobby
+build=avahi bzip2 fam gconf gnome-mime-data hal krb5 smbclient gtkmm libidl2 orbit2 atk libtasn1 gnutls gdk-pixbuf2 gtk2 pango pangomm glibmm gtksourceview2 gtk-doc gnome-common gnome-vfs libxml2 libbonobo libgtksourceviewmm2 libxml++ glibmm-docs net6 obby libsigc++2.0 intltool gobby gettext pkgconfig doxygen glibmm-docs
+exec=/usr/bin/gobby
+

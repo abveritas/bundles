@@ -1,0 +1,9 @@
+name=libreoffice-bin
+desktop=libreoffice-bin.desktop
+icon=libreoffice-bin.png
+config=external
+binary=
+pkgz=rpmextract gtk2 glibc at-spi libreoffice-bin
+build=rpmextract gtk2 glibc at-spi libreoffice-bin
+env==
+exec=/opt/libreoffice/program/soffice

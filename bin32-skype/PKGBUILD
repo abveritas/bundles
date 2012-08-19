@@ -1,0 +1,56 @@
+#
+# Chakra Packages for Chakra, part of chakra-project.org
+#
+# maintainer abveritas@chakra-project.org
+
+pkgname=bin32-skype
+_pkgname32=skype
+pkgver=4.0.0.8
+pkgrel=1
+pkgdesc="P2P software for high-quality voice communication"
+arch=('x86_64')
+url="http://www.skype.com/"
+license=('custom')
+depends=('lib32-alsa-lib' 'lib32-alsa-oss' 'lib32-alsa-plugins' 'lib32-dbus-core' 'lib32-e2fsprogs' 'lib32-fontconfig' 'lib32-freetype2' 'lib32-glib2' 'lib32-libxi' 'lib32-libxrandr' 'lib32-libxrender' 'lib32-libxss' 'lib32-libxv' 'lib32-openssl' 'lib32-pcre' 'lib32-qt')
+optdepends=('lib32-v4l-utils: support for webcams' 'lib32-libcanberra: XDG sound support')
+provides=('skype')
+conflicts=('bin32-skype-staticqt')
+options=(!strip)
+install=skype.install
+source=(http://download.skype.com/linux/$_pkgname32-$pkgver.tar.bz2)
+md5sums=('fa9b4f0ac110349a2480071875068a99')
+
+package() {
+  cd "$srcdir/$_pkgname32-$pkgver"
+
+  # Executable
+  install -D skype "$pkgdir/usr/bin/skype"
+
+  # Data
+  mkdir -p "$pkgdir"/usr/share/skype/{avatars,lang,sounds}
+  install -m 644 avatars/* "$pkgdir/usr/share/skype/avatars"
+  install -m 644 lang/*    "$pkgdir/usr/share/skype/lang"
+  install -m 644 sounds/*  "$pkgdir/usr/share/skype/sounds"
+
+  # DBus Service
+  install -Dm 644 skype.conf \
+    "$pkgdir/etc/dbus-1/system.d/skype.conf"
+
+  # Icons
+  for _i in 16 32 48; do
+    install -Dm 644 icons/SkypeBlue_${_i}x${_i}.png \
+      "$pkgdir/usr/share/icons/hicolor/${_i}x${_i}/skype.png"
+  done
+  install -Dm 644 icons/SkypeBlue_48x48.png \
+    "$pkgdir/usr/share/pixmaps/skype.png"
+
+  # Desktop file
+  install -Dm 644 skype.desktop \
+    "$pkgdir/usr/share/applications/skype.desktop"
+
+  # License
+  install -Dm 644 LICENSE \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  
+}
+

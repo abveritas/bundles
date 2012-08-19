@@ -1,0 +1,40 @@
+# Maintainer: Fabien <hcoohb[at]gmail[dot]com>
+
+pkgname=hugin
+pkgver=2011.4.0
+pkgrel=1
+pkgdesc="A photo stitching tool creating automatic panorama"
+arch=('i686' 'x86_64')
+url="http://hugin.sourceforge.net/"
+license=('LGPL')
+depends=('wxgtk>=2.7.0' 'libpano13>=2.9.18' 'boost-libs' 'enblend-enfuse' 'exiv2' 'openexr' 
+         'lapack' 'desktop-file-utils' 'icu' 'libxt')
+makedepends=('zip' 'cmake' 'boost' 'tclap')
+optdepends=('perl-exiftool: write metadata on output images' 'autopano-sift-c: control point generator on images')
+install=${pkgname}.install
+source=(http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2)
+md5sums=('3e4866dbbc7974972604aa18580eae0e')
+
+build() {
+  cd ${srcdir}
+
+  mkdir build && cd build
+
+  cmake "${srcdir}/${pkgname}-${pkgver}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/tmp/cinstall-1000/${pkgname}-${pkgver}-${pkgrel}-${ARCH}/usr \
+    -DCMAKE_EXE_LINKER_FLAGS="-lpthread" \
+    -DENABLE_LAPACK=yes
+
+  make
+}
+
+package(){
+
+  cd ${srcdir}/build
+  make install DESTDIR=${pkgdir}
+
+  #move files in the right place
+  mv ${pkgdir}/tmp/cinstall-1000/${pkgname}-${pkgver}-${pkgrel}-${ARCH}/usr ${pkgdir}
+  rm -rf ${pkgdir}/tmp
+}

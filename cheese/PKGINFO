@@ -1,0 +1,14 @@
+name=cheese
+description=A gnome webcam app
+icon=cheese.png
+desktop=cheese.desktop
+screenshot=
+url=
+chroot=true
+type=Launcher
+config=external
+pkgz=atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 gnome-desktop gnome-icon-theme libcanberra cheese
+build=atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 perl-xml-simple icon-naming-utils gconf startup-notification gnome-desktop hicolor-icon-theme gnome-icon-theme alsa-lib gtk-doc libcanberra gstreamer0.10-base-plugins gstreamer0.10-good-plugins librsvg pkgconfig gnome-doc-utils intltool libvorbis tdb cheese
+env==LD_LIBRARY_PATH=$ORIGIN-union/lib:$ORIGIN-union/usr/lib:$ORIGIN-union/usr/lib/gtk-2.0:$ORIGIN-union/usr/lib/libcheese-gtk.so.18
+exec=/app/usr/bin/cheese
+

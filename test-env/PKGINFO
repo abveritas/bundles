@@ -1,0 +1,9 @@
+name=test-env
+desktop=env.desktop
+icon=env.png
+chroot=true
+var=binary
+pkgz=test-env
+build=@test-env
+env==
+exec=/usr/bin/test-env.sh

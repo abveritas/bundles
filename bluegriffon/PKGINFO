@@ -1,0 +1,10 @@
+name=bluegriffon
+desktop=bluegriffon.desktop
+icon=bluegriffon.png
+chroot=false
+configure=external
+binary=
+pkgz=atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libpng libjpeg-turbo desktop-file-utils libxt mime-types nss shared-mime-info bluegriffon
+build=atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libpng libjpeg-turbo desktop-file-utils libxt mime-types nss shared-mime-info wget bluegriffon
+env==
+exec=/opt/bluegriffon/bluegriffon

@@ -1,0 +1,8 @@
+#
+# makedeps.list
+#
+# A hepler file for the Chakra GNU/Linux bundles build system
+#
+# This file contains a list of makedeps needed for some packages,
+
+wxgtk=libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache

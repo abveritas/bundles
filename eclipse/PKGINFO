@@ -1,0 +1,9 @@
+name=eclipse
+desktop=eclipse.desktop
+icon=eclipse.png
+screenshot=http://subclipse.tigris.org/images/workspace-ss.png
+chroot=false
+pkgz=gcc-libs xdg-utils hicolor-icon-theme ca-certificates ca-certificates-java libxext libxi recordproto inputproto libxtst libsm libx11 libxt nspr sqlite3 zlib nss glibc libjpeg-turbo freetype2 renderproto libxrender libpng openjdk6 atk cairo pango gtk2 unzip libxslt gstreamer0.10-base libsoup enchant icu libgl libwebkit eclipse
+build=gcc-libs xdg-utils hicolor-icon-theme ca-certificates ca-certificates-java libxext libxi recordproto inputproto libxtst libsm libx11 libxt nspr sqlite3 zlib nss glibc libjpeg-turbo freetype2 renderproto libxrender libpng openjdk6 atk cairo pango gtk2 unzip libxslt gstreamer0.10-base libsoup enchant icu libgl gperf gobject-introspection mesa libwebkit eclipse
+env==ECLIPSE_HOME=$ORIGIN/usr/share/eclipse,,,GDK_NATIVE_WINDOWS=true,,,J2SDKDIR=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin,,,JAVA_HOME=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin,,,DERBY_HOME=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin,,,PATH=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin:$PATH
+exec=/usr/share/eclipse/eclipse

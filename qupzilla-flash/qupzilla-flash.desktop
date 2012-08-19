@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Qupzilla
+Comment=Qt web-browser
+Exec=qupzilla
+Icon=qupzilla.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Network;WebBrowser;Application;

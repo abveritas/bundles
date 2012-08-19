@@ -1,0 +1,13 @@
+name=PiTiVi
+description=Editor for audio/video projects using the GStreamer framework
+icon=pitivi.png
+chroot=
+desktop=pitivi.desktop
+screenshot=
+type=
+deps=gstreamer0.10 gstreamer0.10-good pygtk gstreamer0.10-python perlxml zope-interface setuptools dbus-python pkgconfig intltool gtk2
+pkgz=pygoocanvas gnonlin gnome-icon-theme pitivi
+build=goocanvas pygoocanvas gnonlin perl-xml-simple icon-naming-utils gnome-icon-theme pitivi
+env==
+exec=/usr/bin/pitivi
+

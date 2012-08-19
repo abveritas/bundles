@@ -1,0 +1,8 @@
+name=dia
+desktop=dia.desktop
+icon=dia.png
+chroot=true
+pkgz=intltool libxslt desktop-file-utils libpng libjpeg-turbo libtiff libart-lgpl freetype2 pango libxml2 gdk-pixbuf2 gtk2 dia
+build=intltool docbook-xsl libxslt desktop-file-utils libpng libjpeg-turbo libtiff libart-lgpl freetype2 pango libxml2 gdk-pixbuf2 gtk2 @dia
+env==LD_LIBRARY_PATH=$ORIGIN-union/usr/lib/dia
+exec=/usr/bin/dia

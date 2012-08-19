@@ -1,0 +1,9 @@
+name=aptana-studio
+desktop=aptana.desktop
+icon=aptana.png
+screenshot=http://www.aptana.org/images/hero/studio3.png
+chroot=false
+pkgz=gcc-libs xdg-utils hicolor-icon-theme ca-certificates ca-certificates-java libxext libxi recordproto inputproto libxtst libsm libx11 libxt nspr sqlite3 zlib nss glibc libjpeg-turbo freetype2 renderproto libxrender libpng12 openjdk6 atk cairo pango gtk2 unzip gnome-mime-data gnome-common gtk-doc glib2 gtk-sharp-2 avahi gnome-vfs libgnome libgnomecanvas libbonoboui libgnomeui xulrunner libidl2 orbit2 gconf net-tools aptana-studio
+build=gcc-libs xdg-utils hicolor-icon-theme ca-certificates ca-certificates-java libxext libxi recordproto inputproto libxtst libsm libx11 libxt nspr sqlite3 zlib nss glibc libjpeg-turbo freetype2 renderproto libxrender libpng12 openjdk6 atk cairo pango gtk2 unzip gnome-mime-data gnome-common gtk-doc glib2 gtk-sharp-2 @avahi gnome-vfs @libgnome libgnomecanvas libbonoboui libgnomeui xulrunner libidl2 orbit2 gconf net-tools aptana-studio
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/usr/lib/xulrunner-12.0,,,ECLIPSE_HOME=$ORIGIN/usr/share/aptana,,,GDK_NATIVE_WINDOWS=true,,,J2SDKDIR=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin,,,JAVA_HOME=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin,,,DERBY_HOME=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin,,,PATH=$ORIGIN/usr/lib/jvm/java-6-openjdk/bin:$PATH
+exec=/usr/share/aptana/AptanaStudio3

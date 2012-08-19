@@ -1,0 +1,27 @@
+pkgname=chromium-libpdf
+pkgver=20.0.1132.43
+pkgrel=1
+pkgdesc="libpdf plugin for Chromium installed from CCR"
+url="http://wiki.archlinux.org/index.php/Chromium#libpdf.so"
+arch=("i686" "x86_64")
+license="non-free"
+depends=()
+
+case $CARCH in
+  i686)   libpdf_arch="i386"  ;;
+  x86_64) libpdf_arch="amd64" ;;
+esac
+
+build() {
+
+    cd $startdir/src
+
+    wget https://dl-ssl.google.com/linux/direct/google-chrome-stable_current_$libpdf_arch.deb
+
+    ar xv google-chrome-stable_current_$libpdf_arch.deb
+    lzma -d data.tar.lzma
+    tar xvf data.tar ./opt/google/chrome/libpdf.so
+
+    mkdir -p $startdir/pkg/usr/lib/chromium
+    install -o root -g root -m 755 ./opt/google/chrome/libpdf.so $startdir/pkg/usr/lib/chromium
+} 

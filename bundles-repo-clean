@@ -1,0 +1,65 @@
+#!/bin/bash
+#
+#
+# bundles-repo-clean
+#
+# a simple script for clean a bundles repo for Chakra GNU/Linux
+# (c) 2010 - Manuel Tortosa
+
+_needed_functions="messages"
+# load functions
+for subroutine in ${_needed_functions}
+do
+    source _buildscripts/functions/${subroutine}
+done
+
+pushd _repo/remote &>/dev/null
+_pkglist="`ls -1 *.cb`" 
+
+pkgs_ammount=0
+remove_ammount=0
+real_list=""
+
+# parse the package list
+for pkg in $_pkglist
+do
+	cut_name="`echo $pkg | cut -d "-" -f1`"
+	pkg_eval="`ls -1 $cut_name*.cb`"
+	for eval_pkg in $pkg_eval
+	do
+		if [ "$eval_pkg" != "$pkg" ] ; then 
+			if [[ ${eval_pkg} < ${pkg} ]] ; then
+				pkgs_to_remove="`echo $pkgs_to_remove` $eval_pkg"
+			else
+				pkgs_to_remove="`echo $pkgs_to_remove` $pkg"
+			fi
+		fi
+	done
+	((pkgs_ammount++))
+done
+	
+# simplify the list of files to remove
+for element in $pkgs_to_remove
+do
+	element_exist=""
+	for eval_real in $real_list
+	do
+		if [[ "$element" = "$eval_real" ]] ; then
+			element_exist="1"
+		fi
+	done
+	if [ "$element_exist" = "" ] ; then
+		real_list="`echo $real_list` $element"
+		((remove_ammount++))
+	fi
+done
+
+msg "parsed files: $pkgs_ammount | files to be removed: $remove_ammount"
+
+# removal
+for rm_process in $real_list 
+do
+      rm -vf $rm_process
+done
+
+popd &>/dev/null

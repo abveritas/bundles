@@ -1,0 +1,8 @@
+name=aMule
+desktop=amule.desktop
+icon=amule.png
+config=external
+pkgz=gd geoip libsm device-mapper libjpeg-turbo orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache wxgtk crypto++ libupnp amule
+build=docbook-xsl gd geoip libsm device-mapper libjpeg-turbo orbit2 atk pango krb5 shared-mime-info cairo gtk-doc gdk-pixbuf2 libtasn1 gtk-update-icon-cache gnutls gnome-doc-utils libcups gtk2 perlxml libgnomecups libart-lgpl intltool libgnomeprint perl-xml-simple icon-naming-utils hicolor-icon-theme gnome-icon-theme libglade libgnomecanvas libgnomeprintui ccache gstreamer0.10-base-plugins gconf mesa wxgtk crypto++ libupnp amule
+env==
+exec=/usr/bin/amule

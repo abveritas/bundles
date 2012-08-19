@@ -1,0 +1,43 @@
+# $Id: PKGBUILD 84189 2010-06-27 11:54:37Z ibiru $
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=xulrunner
+pkgver=9.0.1
+pkgrel=1
+pkgdesc="Mozilla Runtime Environment"
+arch=('i686' 'x86_64')
+license=('MPL' 'GPL' 'LGPL')
+depends=('gtk2>=2.20.1' 'gcc-libs>=4.5.0' 'libidl2>=0.8.13' 'mozilla-common' 'nss>=3.12.6' 'libxt' 'hunspell>=1.2.8' 'startup-notification>=0.10' 'mime-types' 'dbus-glib>=0.86' 'alsa-lib>=1.0.23' 'libevent' 'qt')
+makedepends=('zip' 'pkg-config' 'diffutils' 'libgnomeui' 'python' 'wireless_tools' 'autoconf2.13' 'yasm')
+optdepends=('libgnomeui: GNOME integration and MIME handling'
+            'wireless_tools: Location aware browsing'
+            'python: pyxpcom')
+url="http://wiki.mozilla.org/XUL:Xul_Runner"
+source=("http://ftp.mozilla.org/pub/mozilla.org/${pkgname}/releases/${pkgver}/source/${pkgname}-${pkgver}.source.tar.bz2")
+sha1sums=('a76f67bf1ffc9f91bcd6e56073c5eb6764b2d362')
+
+build() {
+  cd "${srcdir}/mozilla-release"
+
+  unset CFLAGS
+  unset CXXFLAGS
+
+  ./configure --prefix=/usr \
+              --enable-default-toolkit=cairo-qt \
+              --enable-application=xulrunner
+
+  make 
+}
+
+package() {
+  cd "${srcdir}/mozilla-release"
+
+  make DESTDIR="${pkgdir}" install
+
+  # Remove files belonging to the "nss" package.
+  rm "${pkgdir}/usr/lib/pkgconfig/mozilla-nspr.pc"
+  rm "${pkgdir}/usr/lib/pkgconfig/mozilla-nss.pc"
+}
+
+# vim:set ts=2 sw=2 et:

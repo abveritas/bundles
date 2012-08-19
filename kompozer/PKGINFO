@@ -1,0 +1,10 @@
+name=kompozer
+desktop=kompozer.desktop
+icon=kompozer.png
+chroot=false
+configure=external
+binary=
+pkgz=atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 glib2 pango nss libxt libidl2 zip pkgconfig libsoup-gnome smbclient gconf libproxy gvfs gnome-vfs kompozer
+build=atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 glib2 pango nss libxt libidl2 zip pkgconfig gnome-common gnome-mime-data libunique udisks gtk-sharp-2 @avahi gnome-disk-utility libplist usbmuxd libimobiledevice @libsoup libsoup-gnome smbclient samba gconf libproxy gvfs gtk-doc gnome-vfs @libgnome kompozer
+env==MOZILLA_FIVE_HOME=$ORIGIN/usr/lib/kompozer
+exec=/usr/bin/kompozer

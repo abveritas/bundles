@@ -1,0 +1,26 @@
+pkgname=librsvg
+pkgver=2.36.1
+pkgrel=1
+pkgdesc="SAX-based renderer for SVG files into a GdkPixbuf"
+arch=(i686 x86_64)
+license=('LGPL')
+depends=('gdk-pixbuf2' 'pango' 'libcroco')
+makedepends=('intltool' 'gtk2' 'gobject-introspection')
+options=('!libtool')
+url="http://librsvg.sourceforge.net/"
+install=librsvg.install
+source=(http://ftp.gnome.org/pub/gnome/sources/${pkgname}/2.36/${pkgname}-${pkgver}.tar.xz)
+sha256sums=('786b95e1a091375c5ef2997a21c69ff24d7077afeff18197355f54d9dcbcd8c5')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr \
+      --with-croco --disable-static \
+      --with-svgz 
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}

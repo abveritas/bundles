@@ -1,0 +1,21 @@
+# $Id: PKGBUILD 87850 2010-08-18 13:23:55Z ibiru $
+# Maintainer : Ionut Biru <ibiru@archlinux.org>
+# Contributor: Douglas Soares de Andrade <douglas@archlinux.org>
+
+pkgname=zope-interface
+pkgver=3.5.3
+pkgrel=1
+pkgdesc="Separate distribution of the zope.interface package used in Zope 3."
+license=('ZPL')
+arch=('i686' 'x86_64')
+url="http://www.zope.org/Products/ZopeInterface/"
+depends=('python')
+source=(http://pypi.python.org/packages/source/z/zope.interface/zope.interface-${pkgver}.tar.gz)
+md5sums=('1fdb9a77f92d3ada3e795a8c9b58d0c6')
+
+build() {
+  cd ${srcdir}/zope.interface-${pkgver}
+  python setup.py install --prefix=/usr --root=${pkgdir} --optimize=1
+  # Blabla.
+  rm $pkgdir/usr/lib/python2.6/site-packages/zope/interface/README*.txt
+}

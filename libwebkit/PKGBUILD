@@ -1,0 +1,29 @@
+
+pkgname=libwebkit
+pkgver=1.6.3
+pkgrel=1
+pkgdesc="an opensource web content engine, derived from KHTML and KJS from KDE"
+arch=('i686' 'x86_64')
+url="http://webkitgtk.org/"
+license=('custom')
+depends=('libxt' 'libxslt' 'sqlite3' 'gtk2' 'icu' 'gstreamer0.10-base' 'libsoup' 'enchant' 'libgl')
+makedepends=('gperf' 'gobject-introspection' 'mesa')
+options=('!libtool' '!emptydirs')
+source=(http://webkitgtk.org/webkit-${pkgver}.tar.xz)
+md5sums=('c476d9335419df061510d31e21175df1')
+
+build() {
+  cd "${srcdir}/webkit-${pkgver}"
+  
+  ./configure --prefix=/usr \
+      --enable-introspection --with-gtk=2.0\
+      --with-font-backend=freetype --disable-gtk-doc \
+      --enable-geolocation=no --with-unicode-backend=icu
+  make 
+}
+
+package() {
+  cd "${srcdir}/webkit-${pkgver}"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 Source/WebKit/LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

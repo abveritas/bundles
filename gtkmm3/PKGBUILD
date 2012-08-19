@@ -1,0 +1,35 @@
+pkgbase=gtkmm3
+_pkgbasename=gtkmm
+pkgname=('gtkmm3' 'gtkmm3-docs')
+pkgver=3.0.1
+pkgrel=1
+arch=('i686' 'x86_64')
+makedepends=('gtk3' 'pangomm' 'atkmm' 'glibmm-docs' 'mm-common')
+license=('LGPL')
+options=('!libtool' '!emptydirs')
+url="http://gtkmm.sourceforge.net/"
+source=(http://ftp.gnome.org/pub/GNOME/sources/${_pkgbasename}/3.0/${_pkgbasename}-${pkgver}.tar.gz)
+sha256sums=('ea9a877f382397eb680c5e6c003ebd821f225ef4e370c972505ee2b991d6fb61')
+
+build() {
+  cd "${srcdir}/${_pkgbasename}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+package_gtkmm3() {
+  pkgdesc="C++ bindings for gtk3"
+  depends=('gtk3' 'pangomm' 'atkmm')
+  cd "${srcdir}/${_pkgbasename}-${pkgver}"
+
+  sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
+
+  make DESTDIR="${pkgdir}" install
+}
+
+package_gtkmm3-docs() {
+  pkgdesc="Developer documentation for gtkmm v3"
+
+  cd "${srcdir}/${_pkgbasename}-${pkgver}"
+  make -C docs DESTDIR="${pkgdir}" install
+}

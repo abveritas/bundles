@@ -1,0 +1,10 @@
+name=inkscape
+desktop=inkscape.desktop
+icon=inkscape.png
+screenshot=
+chroot=true
+config=
+pkgz=gtk2 gtkspell librsvg imagemagick libjpeg-turbo poppler-data poppler gc gsl pyxml popt desktop-file-utils gtkmm libxslt hicolor-icon-theme python2 python-lxml python-numpy inkscape pygtk sozi
+build=libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 librsvg imagemagick enchant gtk-doc intltool gtkspell libjpeg-turbo poppler-data poppler poppler-glib gc gsl pyxml popt desktop-file-utils gtkmm libxslt hicolor-icon-theme python2 python-lxml python-numpy inkscape pygtk sozi
+env==
+exec=/usr/bin/inkscape

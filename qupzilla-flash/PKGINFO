@@ -1,0 +1,8 @@
+name=qupzilla-flash
+desktop=qupzilla-flash.desktop
+icon=qupzilla-flash.png
+chroot=true
+pkgz=qtwebkit qt mozilla-common libxt krb5 libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nss curl flashplugin qupzilla 
+build=qtwebkit qt mozilla-common libxt krb5 libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nss curl flashplugin qupzilla
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/usr/lib/mozilla/plugins,,,MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins
+exec=/usr/bin/qupzilla

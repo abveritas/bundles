@@ -1,0 +1,10 @@
+name=gimp-dev
+desktop=gimp-dev.desktop
+icon=gimp-dev.png
+chroot=true
+config=external
+pkgz=glib2 libjpeg-turbo orbit2 atk avahi libtasn1 gnutls libcups gtk2 ruby lua openexr ffmpeg librsvg jasper babl gegl exempi perl-xml-simple icon-naming-utils libcdio fuse bluez libarchive pkgconfig intltool startup-notification libexif hicolor-icon-theme desktop-file-utils gobject-introspection krb5 pygtk libxres libwnck icu gstreamer0.10-base enchant libwebkit pyorbit lcms libxpm libwmf libxmu libmng dbus-glib poppler poppler poppler-glib alsa-lib gutenprint sane zlib pango ghostscript gimp-dev xsane xsane-gimp 
+build=babl glib2 libproxy intltool gobject-introspection gamin libjpeg-turbo orbit2 atk libtasn1 gnutls gtk-sharp-2 @avahi libcups gdk-pixbuf2 gtk2 ruby lua openexr ffmpeg librsvg jasper exiv2 gegl exempi perl-xml-simple icon-naming-utils hicolor-icon-theme  libcdio fuse bluez libarchive pkgconfig startup-notification libexif desktop-file-utils @libsoup libsoup-gnome pygtk libxres libwnck icu gstreamer0.10-base enchant gperf libwebkit pyorbit libart-lgpl krb5 lcms libxpm libwmf libxmu libmng dbus-glib @poppler poppler-glib alsa-lib gutenprint sane zlib iso-codes openssl bash ca-certificates libssh2 curl pango ghostscript gimp-dev xsane xsane-gimp
+env==LD_LIBRARY_PATH=$ORIGIN/usr/lib:$ORIGIN/etc
+binary=/usr/bin/gimp /usr/bin/xsane
+exec=/usr/bin/gimp

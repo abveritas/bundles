@@ -1,0 +1,12 @@
+name=firefox
+description=The Mozilla Web-Browser
+icon=firefox.png
+desktop=firefox.desktop
+screenshot=
+url=http://www.mozilla.com
+config=external
+pkgz=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 freetype2 pango cairo gtk2 desktop-file-utils libxt mime-types nspr nss shared-mime-info wget flashplugin firefox
+build=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 freetype2 pango cairo gtk2 desktop-file-utils libxt mime-types nspr nss shared-mime-info wget flashplugin firefox
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0,,,MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins
+binary=
+exec=/opt/firefox-14.0.1/firefox

@@ -1,0 +1,9 @@
+name=audacity
+desktop=audacity.desktop
+icon=audacity.png
+config=external
+pkgz=zip python2 pkgconfig orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 wxgtk x264 ffmpeg audacity
+build=zip python2 pkgconfig orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libvorbis libmad libid3tag libsamplerate lame shared-mime-info desktop-file-utils redland jack soundtouch x264 ffmpeg libgnomecups libart-lgpl libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache mesa gstreamer0.10-base-plugins wxgtk audacity
+env==
+exec=/usr/bin/audacity
+

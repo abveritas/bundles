@@ -1,0 +1,34 @@
+#
+# Chakra Packages for Chakra, part of chakra-project.org
+#
+# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
+# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+
+pkgname=libvpx
+pkgver=0.9.5
+pkgrel=1
+pkgdesc="The VP8 Codec SDK"
+arch=('i686' 'x86_64')
+url="http://www.webmproject.org/"
+license=('BSD')
+depends=('glibc')
+makedepends=('yasm')
+source=(http://webm.googlecode.com/files/${pkgname}-v${pkgver}.tar.bz2
+        CVE-2010-4203.patch)
+sha1sums=('223965ff16737251afb3377c0800d1f8b5f84379'
+          'a90ac3256c565594eb21a581442872a8e53e4963')
+
+build() {
+    cd "${srcdir}/${pkgname}-v${pkgver}"
+    patch -Np1 -i "${srcdir}/CVE-2010-4203.patch"
+    ./configure --enable-vp8 \
+        --enable-runtime-cpu-detect \
+        --enable-shared \
+        --enable-postproc \
+        --enable-pic \
+        --disable-install-docs \
+        --disable-install-srcs
+    make
+    make DIST_DIR="$pkgdir/usr" install
+    install -D -m 0644 LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+}

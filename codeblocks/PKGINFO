@@ -1,0 +1,10 @@
+name=codeblocks
+desktop=codeblocks.desktop
+icon=codeblocks.png
+chroot=true
+config=external
+var=binary
+pkgz=pcre gtk2 wxgtk hicolor-icon-theme bzip2 shared-mime-info codeblocks
+build=pcre zip bzip2 shared-mime-info dbus-core xdg-utils libidn hicolor-icon-theme libjpeg-turbo gtk2 gstreamer0.10-base libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache wxgtk codeblocks
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/wx:$ORIGIN/usr/lib/wxSmithContribItems
+exec=/usr/bin/codeblocks %F

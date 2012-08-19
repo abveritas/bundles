@@ -1,0 +1,11 @@
+name=tuxguitar
+desktop=tuxguitar.desktop
+icon=tuxguitar.png
+config=external
+binary=
+pkgz=glibc gcc-libs xdg-utils hicolor-icon-theme ca-certificates ca-certificates-java libxext libxi recordproto inputproto libxtst libsm libx11 libxt nspr sqlite3 zlib nss glibc libjpeg-turbo freetype2 renderproto libxrender libpng openjdk6 mesa libgnomecanvas gnome-vfs libbonobo gconf libgnome libbonoboui libgnome-keyring libsm libgnomeui unzip pkgconfig apache-ant zip libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 swt alsa-lib portaudio-svn fluidsynth jack tuxguitar
+build=glibc gcc-libs xdg-utils hicolor-icon-theme ca-certificates ca-certificates-java libxext libxi recordproto inputproto libxtst libsm libx11 libxt nspr sqlite3 zlib nss glibc libjpeg-turbo freetype2 renderproto libxrender libpng openjdk6 mesa gtk2 gdk-pixbuf2 libart-lgpl libglade libgnomecanvas gnome-mime-data gtk-doc gnome-common gnome-vfs libbonobo gconf @libgnome libgnome-keyring libbonoboui libsm libgnomeui unzip pkgconfig apache-ant zip libidl2 orbit2 atk libtasn1 gnutls libcups swt alsa-lib portaudio-svn fluidsynth jack tuxguitar
+env==MOZILLA_FIVE_HOME=$ORIGIN/usr/lib/firefox,,,JAVA_HOME=$ORIGIN/usr/lib/jvm/java-6-openjdk,,,CLASSPATH=$ORIGIN/usr/share/java/swt.jar,,,LD_LIBRARY_PATH=$ORIGIN/usr/lib:$ORIGIN/lib:$ORIGIN/usr/lib/tuxguitar:/lib:/usr/lib
+exec=/usr/share/tuxguitar/tuxguitar
+
+

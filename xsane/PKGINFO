@@ -1,0 +1,11 @@
+name=xsane
+desktop=xsane.desktop
+icon=xsane.png
+config=external
+chroot=false
+pkgz=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libjpeg lcms sane zlib xsane
+build=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libjpeg lcms sane zlib xsane
+env==
+binary=/usr/bin/xsane
+exec=/usr/bin/xsane
+ 

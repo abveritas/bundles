@@ -1,0 +1,11 @@
+name=emacs
+desktop=emacs.desktop
+icon=emacs.png
+chroot=true
+config=external
+binary=
+pkgz=dbus-core gpm giflib libxpm libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 gtk-doc libcroco librsvg texinfo hicolor-icon-theme gconf desktop-file-utils alsa-lib emacs
+build=dbus-core gpm giflib libxpm libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 gtk-doc libcroco librsvg texinfo hicolor-icon-theme gconf desktop-file-utils alsa-lib @emacs
+env==
+exec=/usr/bin/emacs
+

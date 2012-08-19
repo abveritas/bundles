@@ -1,0 +1,9 @@
+name=tsclient2
+desktop=tsclient.desktop
+icon=tsclient.svg
+chroot=true
+deps=
+pkgz=gnome-panel tsclient2
+build=libxres libwnck libsoup nspr nss perl-xml-simple icon-naming-utils gnome-icon-theme libgweather libical gnome-menus evolution-data-server gnome-desktop libcanberra libgnomecanvas gnome-mime-data libunique gnome-disk-utility gvfs gnome-vfs libgnome libbonoboui libgnomeui gnome-panel tsclient2
+env==
+exec=/usr/bin/tsclient

@@ -1,0 +1,7 @@
+# Android SDK launcher
+
+cd /opt/android-sdk/tools
+
+./android
+
+

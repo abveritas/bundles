@@ -1,0 +1,45 @@
+# Maintainer: Anke Boersma <abveritas@chakra-project.org>
+
+_name=ardour
+pkgname=$_name
+pkgver=3.0beta5_13072
+pkgrel=2
+pkgdesc="A multichannel hard disk recorder and digital audio workstation"
+arch=('i686' 'x86_64')
+url="http://$_name.org/"
+license=('GPL')
+depends=('qjackctl' 'desktop-file-utils')
+options=('!strip')
+install="$pkgname.install"
+_source_arch="_32"
+[ "$CARCH" = "x86_64" ] && _source_arch="_64"
+md5sums=('49d81b5f8e914cf6d3a4bb6aba06e8ef')
+[ "$CARCH" = "i686" ] && md5sums=('1b95a266cec2417460482f2603cf5f51')
+
+source=("http://$_name.org/files/${_name/a/A}${_source_arch}bit-$pkgver.tar"
+        "$pkgname.desktop")
+md5sums+=('b99bfe5da9cfbd4c76e5c31f63a2aae2')
+
+build() {
+  return 0
+}
+
+package() {
+  cd "$srcdir/${_name/a/A}${_source_arch}bit-$pkgver"
+
+  # unpack
+  install -d "$pkgdir/opt"
+  bsdtar --no-same-owner -jxvf \
+    ${_name/a/A}_x86${_source_arch/_32}-$pkgver.tar.bz2 \
+    -C "$pkgdir/opt"
+
+  # rm uninstaller and sanity check
+  cd "$pkgdir/opt"
+  rm Ardour_x86${_source_arch}-$pkgver/bin/{*.uninstall.sh,sanityCheck}
+
+  # desktop file
+  install -Dm644 "$srcdir/$pkgname.desktop" \
+    "$pkgdir/usr/share/applications/$pkgname.desktop"
+}
+
+# vim:set ts=2 sw=2 et:

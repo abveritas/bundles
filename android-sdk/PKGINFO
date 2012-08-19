@@ -1,0 +1,9 @@
+name=android-sdk
+desktop=android-sdk.desktop
+icon=android-sdk.png
+deps=
+chroot=
+pkgz=lib32-glibc lib32-gcc-libs lib32-libstdc++5 lib32-zlib lib32-ncurses lib32-sdl lib32-libx11 lib32-libxv lib32-alsa-lib lib32-openal
+build=lib32-glibc lib32-gcc-libs lib32-libstdc++5 lib32-zlib lib32-ncurses lib32-sdl lib32-libxau lib32-libxdmcp lib32-libxcb lib32-libxcomposite lib32-libx11 lib32-libxext lib32-libxv  gcc-multilib lib32-alsa-lib lib32-openal 
+env==
+exec=/usr/bin/android-sdk

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=LibreOffice
+Comment=The LibreOffice personal productivity suite
+Exec=libreoffice
+Icon=libreoffice.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Office;Application;

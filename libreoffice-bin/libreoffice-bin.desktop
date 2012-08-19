@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Libreoffice-bin
+Comment=Libre-Office suite, another openoffice
+Exec=libreoffice-bin
+Icon=libreoffice.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Office;Application;

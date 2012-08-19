@@ -1,0 +1,10 @@
+name=wxmaxima
+desktop=wxmaxima.desktop
+icon=wxmaxima.png
+chroot=true
+config=
+binary
+pkgz=gstreamer0.10-base libxml2 libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache wxgtk maxima wxmaxima
+build=gstreamer0.10-base libxml2 libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui ccache libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 gconf libxxf86vm wxgtk @maxima wxmaxima
+env==LD_LIBRARY_PATH=$ORIGIN-union/usr/share/maxima/
+exec=/usr/bin/wxmaxima

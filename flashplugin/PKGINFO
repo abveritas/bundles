@@ -1,0 +1,14 @@
+name=flashplugin
+version=10.2.161.23
+description=The Adobe Web-Browser Media Plugin
+icon=flash.png
+desktop=flash.desktop
+url=http://www.adobe.com
+type=Installer
+pkgz=flashplugin gtk2
+build=mozilla-common libxt gtk2 nss curl flashplugin
+haslicense=true
+licensefile=flash_license.txt
+askinstallpath=false
+installpath=/
+custominstallpixmap=

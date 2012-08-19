@@ -1,0 +1,729 @@
+#!/bin/bash
+# vim:set ts=2 sw=2 et:
+
+#   Makebundle, automation script for the creation and maintenance of cinstall bundles
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#    Copyright (c) 2011 by Manuel Tortosa <manutortosa[at]chakra-project[dot]org
+#                          and the team behind Chakra
+
+#
+# setup
+#
+_script_name="Makebundle"
+_script_ver="0.1.1"
+_build_arch="${_arch}"
+_cur_repo="$(pwd | awk -F '/' '{print $NF}')"
+_needed_functions="config_handling messages dependency_handling"
+
+#
+# default options
+#
+_should_sync=true
+_should_build=true
+_should_bundle=true
+_should_clean=true
+
+# dash followed line if you don't want to tag the bundle testing
+#_testing="testing"
+# load functions
+for subroutine in ${_needed_functions}; do
+  source _buildscripts/functions/${subroutine}
+done
+
+pkgz_to_keep=( $(pacman -Sl core | cut -d ' ' -f 2) )
+
+#
+# Function: __pacman
+# Invokes pacman with the some predefined options.
+#
+__pacman() {
+  LC_ALL="C" sudo pacman "${@}" 2>/dev/null
+}
+
+#
+# Function: provides
+# Outputs an array of packages provided by the given package.
+#
+# Arguments:
+#   ${1} - The package to query for.
+#
+# Returns:
+#   An array of packages provided by ${1}.
+#
+provides() {
+  local leading="Provides       : "
+  local provided="$( __pacman -Si "${1}" | grep "^${leading}" | cut -c $(( 1 + ${#leading} ))- )"
+
+  # If the package provides nothing, return with error
+  [ "${provided}" = "None" ] && return 1
+
+  provided=( ${provided} )
+  echo ${provided[@]%=*}
+}
+
+#
+# Function: isinpacman
+# Queries pacman to know if the given package is in the database.
+#
+# Arguments:
+#   ${1} - The package to query for.
+#
+# Returns:
+#   A non-zero exit code if the package if missing, 0 otherwise.
+#
+isinpacman() {
+  __pacman -Si -- "${1}" &>/dev/null
+}
+
+#
+# Function: isprovided
+# Checks if the given package is provided by some other package, according
+# to the local pacman database.
+#
+# Arguments:
+#   ${1} - The package to query for.
+#
+# Returns:
+#   A non-zero exit code if the package if missing, 0 otherwise.
+#
+isprovided() {
+  OLDIFS="${IFS}"
+  IFS=$'\n'
+
+  providepkg=( $(__pacman -Ssq -- "^${1}((<|>|=|<=|>=)?.*)$") )
+  local rc=${?}
+
+  IFS="${OLDIFS}"
+  return ${rc}
+}
+
+#
+# Function: isinstalled
+# Checks if the given package is installed.
+#
+# Arguments:
+#   ${1} - The package to search for.
+#
+# Returns:
+#   A non-zero exit code if the package if missing, 0 otherwise.
+#
+isinstalled() {
+  __pacman -Qi -- "${1}" &>/dev/null
+}
+
+#
+# Function: show_available_bundles
+# Outputs a list of available bundle directories.
+#
+show_available_bundles() {
+  local bundles=( $(find . -maxdepth 2 -name 'PKGINFO' -printf '%h ') )
+
+  if [ ${#bundles[@]} -gt 0 ]; then 
+    error "available bundles:"
+    for bundle in "${bundles[@]#./}"; do
+      error "${bundle}"
+    done
+    newline
+  fi
+}
+
+#
+# Function: sync_databases
+# Asks the package manager to sync its database cache.
+#
+# Returns:
+#   A non-zero exit code on failure, 0 otherwise.
+#
+sync_databases() {
+  newline
+  __pacman --noconfirm -Syy || {
+    error "failed to update the pacman cache... exiting..."
+    return 1
+  }
+  newline
+}
+
+#
+# Function: clean_working_directory
+# Removes all the build files and directories from the given
+# directory.
+#
+# Arguments:
+#   ${1} - The directory to clean up.
+#
+clean_working_directory() {
+  local directory="${1}"
+  if [ -d "${directory}" ]; then
+    status_start "${directory}"
+    pushd "${directory}" &>/dev/null
+      rm -rf pkg src dbg hdr *.pkg.* &>/dev/null
+    popd &>/dev/null
+    status_done
+  fi
+}
+
+#
+# Function: exit_with_error
+# Prints out an error message and quits from the script.
+#
+exit_with_error() {
+  newline
+  error "Pacman failed to install a needed package,"
+  error "run ./makebundle ${MODE} -c for clean the build and try again."
+  exit 1
+}
+
+#
+# Function: infoline
+# Gets the value of a certain line in the PKGINFO file.
+#
+# Arguments:
+#   ${1} - The required key name.
+#
+# Returns:
+#   The value associated to ${1}.
+#
+infoline() {
+  cat "${_build_work}/${MODE}/PKGINFO" 2>/dev/null | grep "^${1}=" | cut -d '=' -f 2
+}
+
+#
+# Function: inarray
+# Checks if the given value is in the given array.
+#
+# Arguments:
+#   ${1}            - The element to search for.
+#   ${2}...(${#}-1) - The elements of the array.
+#
+# Returns:
+#   A non-zero value if the element cannot be found, 0 otherwise.
+#
+inarray() {
+  for ((i=2; i<=${#}; ++i)) {
+    if [[ "${!i}" == "${1}" ]]; then
+      return 0
+    fi
+  }
+
+  return 1
+}
+
+#
+# Main
+#
+
+#
+# Function: clean_it
+# Cleans all the working directories used by the currently selected bundle.
+#
+clean_it() {
+  pushd "${_build_work}" &>/dev/null
+    newline
+    title2 "Cleaning working directories"
+    for module in ${whattobuild[@]}; do
+      [ "${module:0:1}" = "#" ] && continue
+      clean_working_directory "${module#@}"
+    done
+    newline
+
+    title2 "Removing installed packages"
+    for module in "${whattoclean[@]}"; do
+      [ "${module:0:1}" = "#" ] && continue
+      inarray "${module}" "${pkgz_to_keep[@]}" && continue
+
+      if isinstalled "${module}"; then
+        msg "Removing ${module}"
+        __pacman -Rd --noconfirm "${module}" >/dev/null
+      fi
+    done
+    newline
+    title2 "Removing possible leftover files in _temp..."
+
+    # remove the packages when in clean mode
+    if ${_should_clean} ; then
+      rm _temp/*.pkg.tar.xz &>/dev/null
+      rm _temp/*.pkg.tar.gz &>/dev/null
+    fi
+
+    rm -rf _temp/{usr,etc,opt,tmpbundle,.*,*.cb,*.pkg.tar} &>/dev/null
+  popd &>/dev/null
+}
+
+#
+# Function: create_pkginfo
+# Recreates a PKGINFO file from the given bundle's one.
+#
+# Arguments:
+#   ${1} - The bundle to take the PKGINFO file from.
+#
+create_pkginfo() {
+  source "${_build_work}/${1}/PKGBUILD"
+
+  local output="${_build_work}/_temp/tmpbundle/PKGINFO"
+  rm -f "${output}"
+  touch "${output}"
+
+  echo "version=${pkgver}"      >> "${output}"
+  echo "release=${pkgrel}"      >> "${output}"
+  echo "description=${pkgdesc}" >> "${output}"
+  echo "url=${url}"             >> "${output}"
+  echo "packager=${PACKAGER}"   >> "${output}"
+  echo "$(cat "../${dirname}/PKGINFO" | grep -v '^version' | grep -v '^release' | grep -v '^description' | grep -v '^url' | grep -v '^packager' | grep -v '^type')" >> "${output}"
+}
+
+#
+# Function: bundle_it
+# Creates the bundle from the already built and installed packages and dependencies.
+#
+bundle_it() {
+  # clean the _pkgz directory of multiple package versions
+  status_start "Cleaning old versions in _pkgz/"
+    repo-clean -q -c m s _pkgz
+  status_done
+
+  local dirname="${MODE}"
+  pushd "${_build_work}" &>/dev/null
+    source "${dirname}/PKGBUILD"
+  popd &>/dev/null
+
+  mkdir -p "${_build_work}/_temp" >/dev/null
+  pushd "${_build_work}/_temp" &>/dev/null
+
+  title2 "Creating bundle: $(infoline 'name')-${pkgver}-${pkgrel}-${CARCH}"
+  newline
+
+  local desktop="$(infoline 'desktop')"
+  if [ ! -e "../${dirname}/${desktop}" ]; then
+    error "can't find ${desktop}, exiting..."
+    exit 1
+  fi
+
+  local icon="$(infoline 'icon')"
+  if [ ! -e "../${dirname}/${icon}" ]; then
+    error "can't find ${icon}, exiting..."
+    exit 1
+  fi
+
+  # backup packages to _pkgz for further use (if needed)
+  mkdir -p ../_pkgz &>/dev/null
+  cp -f *.pkg.tar.* ../_pkgz &>/dev/null
+
+  if ${_should_build} ; then
+    for module in "${whattobuild[@]}"; do
+      [ "${module:0:1}" = "#" ] && continue
+
+      # Check if the package already exist in _temp or _pkgz
+      local temp=( "../_temp/${module}"-[0-9]*-*.pkg.tar.[gx]z )
+      local pkgz=( "../_pkgz/${module}"-[0-9]*-*.pkg.tar.[gx]z )
+
+      if [ ${#temp[@]} -ge 1 ] && [ -f "${temp[-1]}" ]; then
+
+        msg "package ${module} found in ${temp[-1]}"
+
+      elif [ ${#pkgz[@]} -ge 1 ] && [ -f "${pkgz[-1]}" ]; then
+
+        msg "package ${module} found in ${pkgz[-1]}, copying to _temp/..."
+        rm "../_temp/${module}"-[0-9]*-*.pkg.tar.* &>/dev/null
+        cp "../_pkgz/${module}"-[0-9]*-*.pkg.tar.* .
+
+      elif isinpacman "${module}"; then
+
+        msg "package ${module} found in pacman database, copying to _temp/..."
+        rm "../_temp/${module}"-[0-9]*-*.pkg.tar.* &>/dev/null
+        cp "/var/cache/pacman/pkg/${module}"-[0-9]*-*.pkg.tar.* .
+
+      elif isprovided "${module}"; then
+
+        newline
+        if inarray "${module}" "${whattobundle[@]}" ]; then
+          error "A provider package for ${module} was found: ${providepkg}" 
+          error "but this package should be bundled, please fix the PKGINFO"
+          exit 1
+        fi
+
+        msg "package ${module} not found in pacman database, but ${providepkg} provides it, copying to _temp/..."
+        newline
+        rm "_temp/${providepkg}"-[0-9]*-*.pkg.tar.* &>/dev/null
+        cp "/var/cache/pacman/pkg/${providepkg}"-[0-9]*-*.pkg.tar.* .
+
+      fi
+    done
+  fi
+
+  for pkg in "${whattobundle[@]}"; do
+    [ "${pkg:0:1}" = "#" ] && continue
+
+    xz_files=( "${pkg}"-[0-9]*-*.tar.xz )
+    gz_files=( "${pkg}"-[0-9]*-*.pkg.tar.gz )
+
+    if [ ${#xz_files[@]} -ge 1 ] && [ -f "${xz_files[-1]}" ]; then
+      status_start "Extracting xz package ${pkg}..."
+        tar -Jxf "${xz_files[-1]}" >/dev/null
+      status_done
+    elif [ ${#gz_files[@]} -ge 1 ] && [ -f "${gz_files[-1]}" ]; then
+      status_start "Extracting gz package ${pkg}..."
+        tar -zxf "${gz_files[-1]}" >/dev/null
+      status_done
+    else 
+      error "Can't find this needed package for the bundle in _temp/ dir: ${pkg}, exiting..."
+      exit 1
+    fi
+  done
+
+  # test for chrooted bundle
+  chrooted="$(infoline 'chroot')"
+
+  # no chroot line, non-chroot bundle
+  if [ -z "${chrooted}" ]; then
+    chrooted="false"
+  fi
+
+  if [ "${chrooted,,}" = "false" ]; then
+
+    # non-chrooted
+
+    # tmpdir
+    mkdir -p tmpbundle &>/dev/null 
+
+    # populate it
+    cp -rf usr etc opt tmpbundle &>/dev/null
+    cp -f "../${dirname}"/*.sh "../${dirname}"/*.desktop "../${dirname}"/*.png tmpbundle &>/dev/null
+
+    # create the PKGINFO in tmpbundle
+    create_pkginfo "${dirname}"
+
+    # trace & strip
+    newline
+    pushd tmpbundle &>/dev/null
+      local binaries=( $(infoline 'binary') )
+
+      for binary in "${binaries[@]}"; do
+        msg "ldd-trace.sh: ${binary}"
+        "${_build_work}/ldd-trace.sh" "${binary}"
+      done
+
+      # launch ldd-trace.sh on the executable (discarding possible arguments)
+      local execline=( $(infoline 'exec') )
+      msg "ldd-trace.sh: ${execline[0]}"
+      "${_build_work}/ldd-trace.sh" "${execline[0]}"
+
+      if [ -x strip.sh ]; then
+        msg "strip.sh: ${dirname}"
+        ./strip.sh
+      fi
+    popd &>/dev/null
+
+    # Squash and move to sync folder
+    newline
+    msg "Compressing bundle..."
+    local __bundle_output="$(infoline 'name')-${pkgver}-${pkgrel}-${CARCH}.cb"
+    mksquashfs tmpbundle "${__bundle_output}" -noappend -all-root -b 256K -Xbcj x86
+    chmod +rw "${__bundle_output}"
+    cp -f "${__bundle_output}" "../_repo/local" &>/dev/null
+
+  else
+
+    # chrooted
+
+    # make needed dirs
+    sudo umount tmpbundle/app &>/dev/null
+    sudo umount tmpbundle/data &>/dev/null
+    sudo umount tmpbundle_root &>/dev/null
+    rm -rf tmpbundle{,_root} &>/dev/null
+    mkdir -p tmpbundle/{app,data} &>/dev/null
+    mkdir -p tmpbundle_root &>/dev/null
+
+    # app sqfs image
+    rm -f tmpbundle/app.sqfs &>/dev/null
+    mv -f usr lib etc opt tmpbundle/app &>/dev/null
+
+    # trace & strip
+    newline
+    pushd tmpbundle/app &>/dev/null
+      local binaries=( $(infoline 'binary') )
+
+      for binary in "${binaries[@]}"; do
+        msg "ldd-trace.sh: ${binary}"
+        "${_build_work}/ldd-trace.sh" "${binary}"
+      done
+
+      # launch ldd-trace.sh on the executable (discarding possible arguments)
+      local execline=( $(infoline 'exec') )
+      msg "ldd-trace.sh: ${execline[0]}"
+      "${_build_work}/ldd-trace.sh" "${execline[0]}"
+
+      if [ -x "${_build_work}/${dirname}/strip.sh" ]; then
+        msg "strip.sh: ${dirname}"
+        "${_build_work}/${dirname}/strip.sh"
+      fi
+    popd &>/dev/null
+
+    # Squash
+    newline
+    msg "Compressing bundle..."
+    mksquashfs tmpbundle/app tmpbundle/app.sqfs -noappend -all-root -b 256K -Xbcj x86
+    rm -rf tmpbundle/{app,data} &>/dev/null
+
+    ## icon, desktop, scripts
+    cp -f "../${dirname}"/*.{sh,desktop,png,svg} tmpbundle &>/dev/null
+
+    # create PKGINFO
+    create_pkginfo "${dirname}"
+
+    # remove any preexistent
+    local __bundle_output="$(infoline 'name')${_testing}-${pkgver}-${pkgrel}-${CARCH}.cb"
+    [ -f "${__bundle_output}" ] && rm -f "${__bundle_output}" >/dev/null
+
+    # actual bundle image
+    genisoimage -o "${__bundle_output}" -J -R -allow-leading-dots -allow-lowercase -allow-multidot -iso-level 3 -no-bak tmpbundle
+
+    status_start "Syncing files to disk..."
+      sync
+    status_done
+
+    chmod +rw "${__bundle_output}" >/dev/null
+
+    # move to sync dir
+    cp -f "${__bundle_output}" ../_repo/local >/dev/null
+
+    # cleanup
+    rm -rf tmpbundle_root &>/dev/null
+    rm -rf * &>/dev/null
+  fi
+
+  popd &>/dev/null
+
+  if ${_should_clean} ; then
+    newline
+    clean_it
+  fi
+}
+
+#
+# Function: real_build_module
+# Launches the effective build of the given module via makepkg.
+#
+# Arguments:
+#   ${1} - The module to build.
+#
+real_build_module() {
+  local module="${1}"
+
+  pushd "${module}" &>/dev/null
+
+  if [ -e "${_build_work}/${module}/PKGBUILD" ]; then
+    ../makepkg -sf --noconfirm "${_mkpkg_flags}" || {
+      if [ "${_build_stop}" = "1" ]; then
+        newline
+        echo "ERROR BUILDING ${module}"
+        newline
+        exit 1
+      else
+        BROKEN_PKGS="${BROKEN_PKGS} ${module}"
+      fi
+    }
+  else
+    newline
+    echo "Error, cannot find the ${module} package or PKGBUILD, exiting... :("
+    newline
+    exit 1
+  fi
+
+  if [ "${_build_autoinstall}" = "1" ]; then
+    msg "installing ${module}..."
+    __pacman -Uf --noconfirm "../_temp/${module}"-*.pkg.* >/dev/null
+  fi
+
+  popd &>/dev/null
+}
+
+#
+# Function: build_module
+# Builds the given module. If it is available from pacman or already compiled,
+# this function just installs its package and moves it in the correct directory.
+# Otherwise, it builds it, exiting when faced with compilation errors.
+#
+# Arguments:
+#   ${1} - The module to build.
+#
+build_module() {
+  local module="${1#@}"
+  local original="${1}"
+
+  # Check if the package already exist in _temp or _pkgz
+  temp=( "_temp/${module}"-[0-9]*-*.pkg.tar.[gx]z )
+  pkgz=( "_pkgz/${module}"-[0-9]*-*.pkg.tar.[gx]z )
+
+  # Some version is in _temp/
+  if [ ${#temp[@]} -ge 1 ] && [ -f "${temp[-1]}" ]; then
+
+    msg "package ${module} found in ${temp[-1]}, skipping the build and installing.."
+    __pacman -U --noconfirm "${temp[-1]}" >/dev/null || exit_with_error
+
+  # If the build was explicitly requested
+  elif [ "${module}" != "${original}" ]; then
+
+    newline
+    msg "building explicitly ${module}. makepkg flags: ${_mkpkg_flags}"
+    real_build_module "${module}"
+
+  # Some version is in _pkgz/
+  elif [ ${#pkgz[@]} -ge 1 ] && [ -f "${pkgz[-1]}" ]; then
+
+    msg "package ${module} found in ${pkgz[-1]}, skipping the build and installing..."
+    __pacman -U --noconfirm "${pkgz[-1]}" >/dev/null || exit_with_error
+
+    if inarray "${module}" "${whattobundle[@]}"; then
+      rm "_temp/${module}"-[0-9]*-*.pkg.tar.* &>/dev/null
+      mkdir -p _temp >/dev/null
+      cp "_pkgz/${module}"-[0-9]*-*.pkg.tar.* _temp
+    fi
+
+  # It's available from the pacman database
+  elif isinpacman "${module}"; then
+
+    msg "package ${module} found in pacman database, skipping the build and installing..."
+    __pacman -S --noconfirm "${module}" >/dev/null || exit_with_error
+
+    if inarray "${module}" "${whattobundle[@]}"; then
+      rm "_temp/${module}"-[0-9]*-*.pkg.tar.* &>/dev/null
+      mkdir -p _temp >/dev/null
+      cp "/var/cache/pacman/pkg/${module}"-[0-9]*-*.pkg.tar.* _temp
+    fi
+
+  # It's provided by some package available from the pacman database
+  elif isprovided "${module}"; then
+
+    newline
+    if inarray "${module}" "${whattobundle[@]}"; then
+      error "A provider package for ${module} was found: ${providepkg}" 
+      error "but this package should be bundled, please fix the PKGINFO"
+      exit 1
+    fi
+
+    msg "package ${module} not found in pacman database, but ${providepkg} provides it, skipping the build..."
+    __pacman -S --noconfirm "${providepkg}" >/dev/null || exit_with_error
+    newline
+
+  # Otherwise, we need to build it
+  else
+
+    newline
+    msg "building ${module}. makepkg flags: ${_mkpkg_flags}"
+    real_build_module "${module}"
+
+  fi
+}
+
+#
+# Function: build_it
+# Builds the currently selected bundle.
+#
+# Arguments:
+#   ${1} - The value to use for _mkpkg_flags.
+#
+build_it() {
+  newline
+
+  _mkpkg_flags="${1}"
+
+  pushd "${_build_work}" &>/dev/null
+    for module in "${whattobuild[@]}"; do
+      [ "${module:0:1}" = "#" ] && continue
+      build_module "${module}"
+    done
+  popd &>/dev/null
+}
+
+
+#
+# startup
+#
+clear
+title "${_script_name} ${_script_ver}"
+check_configs
+load_configs
+MODE="${1}"
+
+if [ -z "${MODE}" ]; then
+  error "you need to specify a bundle to build!" 
+  show_available_bundles
+  exit 1
+fi
+
+if [ ! -e "${MODE}/PKGINFO" ]; then
+  error "can't find PKGINFO, exiting..."
+  exit 1
+fi
+
+# Remove a possible trailing / character
+_build_work="${_build_work%/}"
+MODE="${MODE%/}"
+
+# Get the list of packages to build from PKGINFO
+whattobuild=( $(infoline 'build') )
+# Get the list of packages to package from PKGINFO
+whattobundle=( $(infoline 'pkgz') )
+# Create the list of packages to remove (it's the inverse of whattobuild)
+whattoclean=( $(echo "${whattobuild[@]}" | tac -s ' ') )
+
+#
+# Parse the command line arguments
+#
+
+for arg in "${@:2}"; do
+  case "${arg}" in
+    --no-sync)   _should_sync=false ;;
+    --no-build)  _should_build=false ;;
+    --no-bundle) _should_bundle=false ;;
+    --no-clean)  _should_clean=false ;;
+    *)           error "Unrecognized argument: ${arg}"
+                 newline
+                 msg "Available options: --no-sync, --no-build, --no-bundle, --no-clean"
+                 exit 1
+               ;;
+  esac
+done
+
+#
+# Actually do the required work :)
+#
+
+if ${_should_sync} ; then 
+  sync_databases
+fi
+
+if ${_should_build} ; then
+  newline
+  title2 "Building ${MODE}"
+  time build_it f
+
+  if [ -z "${BROKEN_PKGS}" ]; then 
+    title2 "All done"
+  else
+    title2 "SOME PACKAGES WERE NOT BUILT: ${BROKEN_PKGS}"
+  fi  
+fi
+
+if ${_should_bundle} ; then
+  time bundle_it
+  title2 "All done"
+fi
+
+if ${_should_clean} ; then
+  time clean_it
+  title2 "All done"
+fi

@@ -1,0 +1,100 @@
+#
+# Chakra Packages for Chakra, part of chakra-project.org
+#
+# maintainer abveritas@chakra-project.org
+
+pkgname=chromium
+pkgver=21.0.1180.57
+pkgrel=1
+pkgdesc="The open-source project behind Google Chrome, an attempt at creating a safer, faster, and more stable browser"
+arch=('i686' 'x86_64')
+url="http://www.chromium.org/"
+license=('BSD')
+depends=('gtk2' 'dbus-glib' 'nss' 'alsa-lib' 'xdg-utils' 'bzip2' 'libevent'
+         'libxss' 'libgcrypt' 'ttf-dejavu' 'desktop-file-utils'
+         'hicolor-icon-theme')
+makedepends=('python2' 'perl' 'gperf' 'yasm' 'mesa' 'libgnome-keyring' 'elfutils' 'subversion')
+provides=('chromium-browser')
+conflicts=('chromium-browser')
+install=chromium.install
+source=(http://gsdview.appspot.com/chromium-browser-official/$pkgname-$pkgver.tar.bz2
+        chromium.desktop
+        chromium.sh
+        chromium.default
+        template_url_prepopulate_data.diff
+        search_engine_type.diff)
+sha1sums=('22350fe60318ce092755fd7e02e5f79deb445522'
+          'd02e7eaaa5de9407d8744a03a1306c117b659098'
+          'b767363564e6fe9207dba61dcf1aecaf19a8d86b'
+          '93b07d0d72d361ff30feab048a0e10c770f30d3d'
+          '4438eea477c4da36a6239947e313f82a53564ec7'
+          'a942798127e6b765f17e7fdeda499a4d06372a93')
+
+build() {
+  cd "$srcdir/chromium-$pkgver"
+  
+  # Set DDG as default search
+  patch -p1 -i "$srcdir/template_url_prepopulate_data.diff"
+  patch -p1 -i "$srcdir/search_engine_type.diff"
+
+  build/gyp_chromium -f make build/all.gyp --depth=. \
+    -Dno_strict_aliasing=1 \
+    -Dwerror= \
+    -Dlinux_sandbox_path=/usr/lib/chromium/chromium-sandbox \
+    -Dlinux_strip_binary=1 \
+    -Drelease_extra_cflags="$CFLAGS" \
+    -Dffmpeg_branding=Chrome \
+    -Dproprietary_codecs=1 \
+    -Duse_system_bzip2=1 \
+    -Duse_system_ffmpeg=0 \
+    -Duse_system_libevent=1 \
+    -Duse_system_libjpeg=0 \
+    -Duse_system_libpng=1 \
+    -Duse_system_libxml=0 \
+    -Duse_system_ssl=0 \
+    -Duse_system_yasm=1 \
+    -Duse_system_zlib=1 \
+    -Duse_gconf=0 \
+    -Ddisable_nacl=1 \
+    $([[ $CARCH == i686 ]] && echo '-Ddisable_sse2=1')
+
+  make chrome chrome_sandbox BUILDTYPE=Release
+}
+
+package() {
+  cd "$srcdir/chromium-$pkgver"
+
+  install -D out/Release/chrome ${pkgdir}/usr/lib/chromium/chromium
+
+  install -Dm4755 -o root -g root out/Release/chrome_sandbox \
+    "$pkgdir/usr/lib/chromium/chromium-sandbox"
+
+  cp out/Release/{*.pak,libffmpegsumo.so} \
+    "$pkgdir/usr/lib/chromium/"
+
+  # These links are only needed when building with system ffmpeg
+  #ln -s /usr/lib/libavcodec.so.52 ${pkgdir}/usr/lib/chromium/
+  #ln -s /usr/lib/libavformat.so.52 ${pkgdir}/usr/lib/chromium/
+  #ln -s /usr/lib/libavutil.so.50 ${pkgdir}/usr/lib/chromium/
+
+  # override command-line options
+  install -Dm644 "$srcdir/chromium.default" "$pkgdir/etc/chromium/default"
+
+  cp -a out/Release/locales out/Release/resources "$pkgdir/usr/lib/chromium/"
+
+  find "$pkgdir/usr/lib/chromium/" -name '*.d' -type f -delete
+
+  install -Dm644 out/Release/chrome.1 "$pkgdir/usr/share/man/man1/chromium.1"
+
+  install -Dm644 "$srcdir/chromium.desktop" \
+    "$pkgdir/usr/share/applications/chromium.desktop"
+
+  for size in 22 24 48 64 128 256; do
+    install -Dm644 "chrome/app/theme/chromium/product_logo_$size.png" \
+      "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/chromium.png"
+  done
+
+  install -D "$srcdir/chromium.sh" "$pkgdir/usr/bin/chromium"
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/chromium/LICENSE"
+}

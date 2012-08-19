@@ -1,0 +1,15 @@
+name=devede
+version=3.16.9
+description=Create DVD's from video files
+icon=devede.png
+chroot=true
+desktop=devede.desktop
+screenshot=
+url=
+type=Launcher
+config=external
+pkgz=gtk2 mplayer dvdauthor vcdimager cdrkit pygtk ttf-dejavu libglade pycairo libffi gobject-introspection pygobject libcdio imagemagick fribidi devede
+build=gtk2 mplayer dvdauthor vcdimager cdrkit pygtk ttf-dejavu libglade pycairo libffi gobject-introspection pygobject libcdio imagemagick fribidi devede
+env==PYTHONPATH=/usr/lib/python2.7/site-packages:$PYTHONPATH,,,LD_LIBRARY_PATH=/usr/lib
+exec=/usr/bin/devede
+

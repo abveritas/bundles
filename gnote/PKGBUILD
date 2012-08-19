@@ -1,0 +1,36 @@
+# Maintainer: Daniele Cocca <jmc@chakra-project.org>
+
+pkgname=gnote
+pkgver=0.8.1
+pkgrel=1
+pkgdesc="Gnote is a C++ notetaking application (a rewrite of Tomboy with no Mono dependencies)."
+arch=('i686' 'x86_64')
+url="http://live.gnome.org/Gnote"
+license=('GPL')
+depends=('gtkmm3' 'gtk3' 'libxml2' 'libxslt' 'boost>=1.34' 'hicolor-icon-theme' 'desktop-file-utils')
+makedepends=('intltool' 'gnome-doc-utils')
+options=(!libtool)
+source=(http://ftp.gnome.org/pub/gnome/sources/${pkgname}/0.8/${pkgname}-${pkgver}.tar.xz)
+sha256sums=('d20ad13814e016679e74aa51e2619000bd4468c13d219c760daa633e398bea43')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    ./configure --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --libexecdir=/usr/lib/gnote \
+        --disable-scrollkeeper \
+        --disable-static
+
+  make
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make DESTDIR="${pkgdir}" install
+    glib-compile-schemas ${pkgdir}/usr/share/glib-2.0/schemas
+}
+
+:

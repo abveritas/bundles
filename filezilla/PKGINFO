@@ -1,0 +1,7 @@
+name=filezilla
+desktop=filezilla.desktop
+icon=filezilla.png
+pkgz=wxgtk filezilla
+build=dbus-core xdg-utils libidn hicolor-icon-theme orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 gstreamer0.10-base libgnomecups intltool libart-lgpl libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libglade libgnomecanvas libgnomeprintui ccache libgl libxxf86vm gstreamer0.10-base-plugins gconf mesa wxgtk sqlite3 filezilla
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/wx
+exec=/usr/bin/filezilla

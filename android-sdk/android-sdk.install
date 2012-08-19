@@ -1,0 +1,16 @@
+post_install() {
+    echo "================================="
+    echo "Please change the owner of the /opt/android-sdk folder and its subdirectories"
+    echo "This is needed to install some of the files that will be downloaded by the android tool"
+    echo "ie: chown -R myusername:users /opt/android-sdk"
+    echo "================================="
+    pacman -Qs alsa-lib > /dev/null 2>/dev/null
+    if [ "$?" -eq 0 ]; then
+        echo 'Also, an installation of ALSA has been detected, so you should install lib32-alsa-lib as well'
+        echo "================================="
+    fi
+}
+
+post_upgrade() {
+    post_install
+}

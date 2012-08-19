@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=xchat
+Comment=A GTK+ based IRC client
+Exec=xchat
+Icon=xchat.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;

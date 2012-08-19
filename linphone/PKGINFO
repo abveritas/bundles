@@ -1,0 +1,9 @@
+name=linphone
+desktop=linphone.desktop
+icon=linphone.png
+config=external
+pkgz=alsa-lib ffmpeg libexosip2 gsm speex v4l-utils libpulse libglade libxv gtk2 linphone
+build=alsa-lib ffmpeg libosip2 libexosip2 gsm speex v4l-utils libpulse jade sgmltools-lite libglade libxv orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 perlxml intltool openssl @linphone
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib
+binary=/usr/share/linphone/linphone
+exec=/linphone-launch.sh

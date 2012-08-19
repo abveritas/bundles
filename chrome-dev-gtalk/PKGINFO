@@ -1,0 +1,10 @@
+name=chrome-dev
+desktop=chrome-dev.desktop
+icon=chrome-dev.png
+config=external
+binary=
+pkgz=gcc-libs libjpeg-turbo libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nss gconf freetype2 cairo alsa-lib libxss hicolor-icon-theme perl libpng12 alsa-utils lib32-alsa-lib lib32-alsa-oss lib32-gcc-libs lib32-libstdc++5 lib32-glibc fontconfig glew glib2 libstdc++5 lib32-libx11 lib32-libxt lib32-zlib lib32-libxfixes lib32-openssl lib32-gtk2 lib32-gdk-pixbuf2 google-talkplugin flashplugin-square chrome-dev
+build=gcc-libs nasm libjpeg-turbo libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nss gconf freetype2 cairo alsa-lib libxss hicolor-icon-theme perl libpng12 flashplugin-square alsa-utils lib32-alsa-lib lib32-alsa-oss lib32-gcc-libs lib32-libstdc++5 glibc lib32-glibc fontconfig libgl glew glib2 libstdc++5 lib32-libx11 lib32-libxt lib32-zlib lib32-libxfixes lib32-openssl lib32-gtk2 lib32-gdk-pixbuf2 google-talkplugin chrome-dev
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/opt/google/chrome/lib:$ORIGIN/usr/lib/mozilla/plugins,,,MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins
+exec=/opt/google/chrome/google-chrome
+

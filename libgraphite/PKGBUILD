@@ -1,0 +1,28 @@
+pkgname=('libgraphite')
+pkgver=2.3.1
+pkgrel=1
+arch=('i686' 'x86_64')
+url="http://graphite.sil.org/"
+depends=('gcc-libs')
+pkgdesc="SILGraphite - a \"smart font\" rendering engine - the libs and headers"
+license=('custom_SIL Dual license')
+options=('!libtool' '!emptydirs')
+source=(http://downloads.sourceforge.net/project/silgraphite/silgraphite/${pkgver}/silgraphite-${pkgver}.tar.gz)
+md5sums=('d35724900f6a4105550293686688bbb3')
+ 
+build() {
+  cd "${srcdir}/silgraphite-${pkgver}"
+  pushd engine
+    ./configure --prefix=/usr --disable-static
+  make || return 1
+  popd
+}
+ 
+package() {
+  cd "${srcdir}/silgraphite-${pkgver}"/engine
+  make DESTDIR="$pkgdir/" install || return 1
+ 
+  # licenses
+  mkdir -p "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -m644 license/*.txt "${pkgdir}"/usr/share/licenses/${pkgname}/
+}

@@ -1,0 +1,10 @@
+name=chromium
+desktop=chromium.desktop
+icon=chromium.png
+chroot=true
+binary=
+pkgz=alsa-lib xdg-utils hicolor-icon-theme libevent libxss atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 orbit2 gconf nspr nss libxtst python2 perl gperf yasm mesa libgnome-keyring ttf-dejavu desktop-file-utils chromium-libpdf google-talkplugin chromium chromium-pepper-flash
+build=alsa-lib xdg-utils elfutils hicolor-icon-theme libevent libxss atk libtasn1 gnutls gtk-sharp-2 @avahi libcups gdk-pixbuf2 gtk2 orbit2 gconf nspr nss libxtst python2 perl gperf yasm mesa libgnome-keyring xorg-fonts-encodings ttf-dejavu desktop-file-utils chromium-libpdf google-talkplugin chromium chromium-pepper-flash 
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/chromium/lib,,,MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins,,,CHROME_DESKTOP="chromium-19.0.1084.56-1-i686.desktop"
+exec=/usr/lib/chromium/chromium
+

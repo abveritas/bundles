@@ -1,0 +1,9 @@
+name=komodoedit
+desktop=komodoedit.desktop
+icon=komodo.png
+config=external
+binary=
+pkgz=gtk2 komodoedit
+build=gtk2 @komodoedit
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/opt/komodoedit/lib/mozilla:$ORIGIN/opt/komodoedit/lib/python/lib
+exec=/opt/komodoedit/bin/komodo

@@ -1,0 +1,40 @@
+pkgname=android-sdk
+pkgver=r07
+pkgrel=1
+pkgdesc='Google Android SDK'
+arch=('i686' 'x86_64')
+url="http://code.google.com/android/"
+license=('custom')
+
+[ "$CARCH" = 'x86_64' ] && depends=('lib32-libstdc++5' 'lib32-gcc-libs' 'lib32-zlib' 'lib32-glibc' 'lib32-ncurses' 'lib32-sdl' 'lib32-libx11' 'lib32-libxv' 'lib32-openal' 'lib32-alsa-lib')
+
+install=$pkgname.install
+source=("http://dl.google.com/android/android-sdk_$pkgver-linux_x86.tgz"
+        'android.sh' 'android-sdk' 'android-sdk.png' 'android-sdk.desktop')
+
+md5sums=('e10c75da3d1aa147ddd4a5c58bfc3646'
+         'e7f23c39d02a3a280c746f7398bf5114'
+         '025a589165ff88a09f99bb071f44071c'
+         '1379235d0b536096e08ffd162d0feea7'
+         '23f934264478a03a18e169f494a95fab')
+
+build() {
+  mkdir -p $pkgdir/opt 
+  mkdir -p $pkgdir/etc/profile.d 
+
+  mv $srcdir/android-sdk-linux_x86 $pkgdir/opt/android-sdk 
+  cp $srcdir/android.sh $pkgdir/etc/profile.d 
+
+  cd $pkgdir/opt/android-sdk 
+  find -type d -exec chmod 755 \{\} \; 
+  find -exec chmod +r \{\} \; 
+  chmod +x $startdir/pkg/etc/profile.d/android.sh
+  chgrp -R users $pkgdir/opt/android-sdk
+  chmod g+w $pkgdir/opt/android-sdk
+  
+  cd $srcdir
+  
+  install -Dm755 android-sdk $pkgdir/usr/bin/android-sdk
+  install -Dm655 android-sdk.png $pkgdir/usr/share/pixmaps/android-sdk.png
+  install -Dm655 android-sdk.desktop $pkgdir/usr/share/applications/android-sdk.desktop
+}

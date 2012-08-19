@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Google Chrome (dev)
+Comment=Google chrome developer web-browser bundle, including gtalk and flash plugin
+Exec=google-chrome-dev %u
+Icon=google-chrome-dev.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Network;WebBrowser;Application;

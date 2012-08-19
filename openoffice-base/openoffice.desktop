@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=OpenOffice
+Comment=OpenOffice.org
+Exec=openoffice
+Icon=openoffice.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Office-Suite;Application;

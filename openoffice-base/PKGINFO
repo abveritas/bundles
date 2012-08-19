@@ -1,0 +1,9 @@
+name=openoffice
+desktop=openoffice.desktop
+icon=openoffice.png
+chroot=false
+deps=setuptools bison git rsync wget automake autoconf findutils flex gawk gcc-libs libart-lgpl libxtst boost pam sane pkgconfig unzip zip unixodbc nss apache-ant cairo gperf libcups poppler kdelibs pstoedit gconf openjdk6 libldap mesa gstreamer0.10-base mono curl hunspell python libwpd libxaw neon pango nspr libjpeg libxrandr dbus-glib icu libxslt redland hicolor-icon-theme desktop-file-utils gtk2 
+pkgz=perl-archive-zip xulrunner hsqldb-java beanshell libmspack lucene libmythes libgraphite hyphen lpsolve openoffice-base
+build=perl-archive-zip gnome-mime-data gnome-common libunique udisks libplist usbmuxd libsoup libimobiledevice libbonobo gnome-disk-utility gvfs libgnomecanvas gnome-vfs libgnome libbonoboui libgnomeui xulrunner hsqldb-java beanshell time hdf5 pygments docutils python-jinja python-sphinx vigra libmspack lucene libmythes libgraphite hyphen lpsolve openoffice-base
+env==
+exec=/usr/lib/openoffice/program/soffice

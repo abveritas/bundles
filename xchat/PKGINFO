@@ -1,0 +1,9 @@
+name=xchat
+desktop=xchat.desktop
+icon=xchat.png
+chroot=true
+var=binary
+pkgz=gtk2 xchat
+build=gtk2 openssl dbus-glib tcl perl python enchant xchat 
+env==
+exec=/usr/bin/xchat

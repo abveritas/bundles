@@ -1,0 +1,28 @@
+# maintainer: abveritas@chakra-project.org
+
+pkgname=lv2
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Successor to the LADSPA audio plug-in standard"
+url="http://lv2plug.in/"
+license=('LGPL' 'custom')
+arch=('i686' 'x86_64')
+makedepends=('python2' 'libsndfile' 'gtk2')
+source=("http://lv2plug.in/spec/$pkgname-$pkgver.tar.bz2")
+md5sums=('af98a50d8dfa8318a69800ea48b421f6')
+
+build() {
+	cd "$srcdir/$pkgname-$pkgver"
+
+	python2 waf configure --prefix=/usr
+	python2 waf build $MAKEFLAGS
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+
+	python2 waf install --destdir="$pkgdir"
+
+	install -Dm644 COPYING \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

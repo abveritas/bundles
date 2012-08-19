@@ -1,0 +1,16 @@
+name=pidgin
+desktop=pidgin.desktop
+icon=pidgin.png
+version=2.10.6
+release=1
+description=Toolkit for Secure Internet Live Conferencing
+url=http://pidgin.im/
+packager=Anke Boersma <abveritas@chakra-project.org>
+type=Launcher
+chroot=true
+config=external
+pkgz=intltool atk pango cairo libxcursor libxinerama libxrandr libxi libxcomposite libxdamage gtk2 glibc perl gstreamer0.10-base tk aspell cyrus-sasl-plugins startup-notification libxss nspr nss libsasl hicolor-icon-theme python2 gobject-introspection gstreamer0.10-bad-plugins gstreamer0.10-good gstreamer0.10-ffmpeg farstream dbus-core dbus dbus-python pygtk enchant gtkspell libidn silc-toolkit libsm libx11 pth libpurple pidgin libotr perl-xml-parser pidgin-otr gettext gpgme gmime pidgin-sipe
+build=intltool atk pango cairo libxcursor libxinerama libxrandr libxi libxcomposite libxdamage gtk2 gnome-doc-utils gtk-doc glibc perl gstreamer0.10-base ca-certificates networkmanager tk aspell cyrus-sasl-plugins startup-notification libxss nspr nss libsasl hicolor-icon-theme python2 gobject-introspection pygobject gstreamer0.10-bad-plugins gstreamer0.10-good gstreamer0.10-ffmpeg farstream dbus-core dbus dbus-python pygtk avahi enchant gtkspell libidn silc-toolkit libsm libx11 pth @libpurple pidgin libotr perl-xml-parser pidgin-otr gettext gtk-sharp-2 gpgme gmime pidgin-sipe
+env==LD_LIBRARY_PATH=/usr/lib:/lib:/usr/lib/purple-2
+exec=/usr/bin/pidgin
+ 

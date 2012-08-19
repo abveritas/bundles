@@ -1,0 +1,28 @@
+# maintainer : abveritas <abveritas@chakra-project.org>
+# contributor: Gicu Gorodenco <cyclopsihus@gmail.com>
+
+pkgname=pidgin-sipe
+pkgver=1.13.2
+pkgrel=1
+pkgdesc="An Open Implementation of SIP/Simple protocol for Live Communications Server 2003/2005/2007 - Pidgin plugin"
+arch=('i686' 'x86_64')
+license=('GPL')
+url="http://sipe.sourceforge.net/"
+depends=('glib2' 'gtk2' 'gmime' 'gettext' 'pidgin')
+makedepends=('pkgconfig' 'intltool')
+options=('!libtool')
+source=("http://downloads.sourceforge.net/project/sipe/sipe/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+sha256sums=('656d72a76cf558856e1f8f08addc4fc7cf3d9dc443db7a20d4fea7c68a8e2c63')
+
+build() {
+	cd ${srcdir}/${pkgname}-${pkgver}
+
+	export CFLAGS="${CFLAGS} -Wno-error=unused-but-set-variable -Wno-error=uninitialized"
+	./configure --prefix=/usr
+	make 
+}
+
+package() {
+        cd ${srcdir}/${pkgname}-${pkgver}
+	make DESTDIR=${pkgdir} install
+}

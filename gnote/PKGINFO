@@ -1,0 +1,10 @@
+name=gnote
+desktop=gnote.desktop
+icon=gnote.png
+screenshot=http://upload.wikimedia.org/wikipedia/commons/4/44/Gnote_screenshot.png
+chroot=true
+pkgz=pango cairo libsigc++ cairomm glibmm atkmm mm-common pangomm gtkmm3 gtk3 zlib readline ncurses libxml2 libgcrypt libxslt bzip2 boost gcc-libs pcre aspell dbus-core dbus-glib hunspell enchant gnote
+build=bzip2 boost gcc-libs pcre python glib2 atk pango cairo libsigc++ gdk-pixbuf2 cairomm glibmm pangomm atkmm mm-common gtk3 gtkmm3 zlib readline ncurses libxml2 libgcrypt libxslt aspell dbus-core dbus-glib hunspell enchant gtk-doc gtkspell intltool gnome-doc-utils vala gobject-introspection gnote
+env==LD_LIBRARY_PATH=/lib:/usr/lib:/usr/lib/gdkmm-3.0
+exec=/usr/bin/gnote
+

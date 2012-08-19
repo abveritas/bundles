@@ -1,0 +1,37 @@
+# Maintainer: Your Name <youremail@domain.com>
+
+pkgname=mysql-workbench
+pkgver=5.2.40
+pkgrel=1
+pkgdesc="MySQL Workbench is a cross-platform, visual database design tool developed by MySQL."
+arch=('i686' 'x86_64')
+url="http://wb.mysql.com/"
+license=('GPL')
+depends=('atk' 'glibc' 'glib2' 'cairo' 'pango' 'gtk2' 'atkmm' 'glibmm' 'cairomm' 'pangomm' 'gtkmm' 'lua' 'libmysqlclient' 'libpng12' 'libgl' 'python2' 'sqlite3' 'libxml2' 'libzip' 'zlib' 'python-paramiko' 'python-pexpect' 'python-pysqlite' 'boost-libs' 'libsigc++' 'pcre' 'ctemplate')
+makedepends=('boost' 'mesa' 'curl')
+source=("http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQLGUITools/${pkgname}-gpl-${pkgver}-src.tar.gz"
+        'glib2-2.32.patch')
+md5sums=('ac5c2058cd39c796a1c7bed2647f74b6'
+         '49b430ececbbfbd60586c267a148ad76')
+
+build() {
+  cd "${srcdir}/${pkgname}-gpl-${pkgver}-src"
+
+  fgrep -rlZ pkglib_DATA --include Makefile.am . | xargs -0 sed -i 's/pkglib_DATA/pkgdata_DATA/g'
+  
+  #patch -p1 -i ${srcdir}/glib2-2.32.patch
+
+  ./autogen.sh
+  ./configure --prefix=/usr 
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-gpl-${pkgver}-src"
+  make DESTDIR="${pkgdir}" install
+  ln -s ${pkgdir}/usr/share/mysql-workbench/*.py ${pkgdir}/usr/lib/mysql-workbench/modules/
+  ln -s ${pkgdir}/usr/share/mysql-workbench/*.lua ${pkgdir}/usr/lib/mysql-workbench/modules/
+  ln -s ${pkgdir}/usr/share/mysql-workbench/*.glade ${pkgdir}/usr/lib/mysql-workbench/modules/
+}
+
+# vim:set ts=2 sw=2 et:

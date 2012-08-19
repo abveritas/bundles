@@ -1,0 +1,9 @@
+name=libreoffice
+desktop=libreoffice.desktop
+icon=libreoffice.png
+chroot=false
+config=external
+pkgz=pango atk libxcursor libxinerama libxrandr libxi libxcomposite libxdamage heimdal gnutls shared-mime-info cairo libtiff libcups gdk-pixbuf2 gtk2 perl-archive-zip xulrunner hsqldb-java cppunit beanshell vigra lucene libmythes junit libwpd libwpg libgraphite hyphen lpsolve libmspack boost sane zip unzip unixodbc apache-ant gperf poppler gconf openjdk6 libldap imagemagick mesa gstreamer0.10-base curl hunspell python libxaw neon nspr nss libjpeg dbus-glib icu libxslt redland gcc-libs bash hicolor-icon-theme desktop-file-utils pstoedit zlib texinfo usbmuxd libreoffice
+build=pango atk libxcursor libxinerama libxrandr libxi libxcomposite libxdamage heimdal gnutls shared-mime-info cairo libtiff libcups gdk-pixbuf2 gtk2 dbus-glib gobject-introspection intltool libgnome-keyring libnotify hicolor-icon-theme gnome-doc-utils gconf libproxy libcdio fuse bluez libgphoto2 fam talloc tdb @smbclient @samba perl-archive-zip gnome-mime-data gnome-common libunique udisks libplist @libsoup @libsoup-gnome libimobiledevice libbonobo gnome-disk-utility gvfs libglade libart-lgpl libgnomecanvas hal gtk-doc gnome-vfs libgnome libbonoboui libgnomeui xulrunner openjdk6 unzip apache-ant hsqldb-java cppunit beanshell time hdf5 setuptools pygments docutils python-jinja python-sphinx python-nose doxygen fftw vigra lucene libmythes fastjar junit libgsf @libwpd @libwpg libgraphite hyphen lpsolve libmspack sane zip unixodbc gperf poppler mesa gstreamer0.10-base python libxaw neon libgl icu redland desktop-file-utils pygtk boost libldap imagemagick curl hunspell nspr libjpeg libxslt gcc-libs bash pstoedit zlib texinfo usbmuxd nss kdelibs libreoffice
+env==
+exec=/usr/lib/ooo-3.3/program/soffice

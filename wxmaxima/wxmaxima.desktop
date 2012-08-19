@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=WxMaxima
+GenericName=GUI widget for the computer algebra system Maxima
+Exec=wxmaxima
+Terminal=false
+Icon=wxmaxima.png
+Type=Application
+Categories=Applications;Education;
+

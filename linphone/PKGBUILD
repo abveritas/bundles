@@ -1,0 +1,37 @@
+# Maintainer: Fabien <hcoohb[ah]gmailcom>
+
+pkgname=linphone
+pkgver=3.5.0
+pkgrel=1
+pkgdesc="A Voice-over-IP phone"
+arch=('i686' 'x86_64')
+url="http://www.linphone.org/index.php/eng"
+license=('GPL')
+depends=('alsa-lib' 'ffmpeg' 'gtk2' 'libexosip2' 'gsm' 'speex' 'libglade' 'v4l-utils' 'libpulse' 'libxv')
+makedepends=('pkgconfig' 'perlxml' 'intltool' 'sgmltools-lite')
+optdepends=('pulseaudio')
+conflicts=(ortp)
+provides=(ortp)
+options=('!libtool' '!emptydirs')
+source=("http://download-mirror.savannah.gnu.org/releases/linphone/3.5.x/sources/${pkgname}-${pkgver}.tar.gz")
+md5sums=('95111861f71c455f58b5177863b8e566')
+
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  export PKG_CONFIG=/usr/bin/pkg-config
+  unset SGML_CATALOG_FILES
+  ./configure --prefix=/usr --disable-static --enable-ipv6 --enable-video \
+	--enable-alsa --enable-pulseaudio --disable-artsc --disable-strict \
+	--libexecdir=/usr/lib/$pkgname
+  make
+  make DESTDIR="$pkgdir" install
+
+  #move files to prepare bundle:
+  mkdir "$pkgdir/usr/share/linphone/gtk"
+  mv $pkgdir/usr/share/linphone/*.* $pkgdir/usr/share/linphone/gtk
+  mkdir "$pkgdir/usr/share/linphone/pixmaps"
+  mv $pkgdir/usr/share/pixmaps/linphone/*.png $pkgdir/usr/share/linphone/pixmaps
+  mv $pkgdir/usr/bin/linphone* $pkgdir/usr/share/linphone
+  
+}

@@ -1,0 +1,45 @@
+# Maintainer: Anke Boersma <abveritas@chakra-project.org>
+
+pkgname=thunderbird
+pkgver=14.0
+pkgrel=1
+pkgdesc="Standalone Mail/News reader"
+arch=('i686' 'x86_64')
+license=('MPL' 'GPL')
+url="http://www.mozilla.org/projects/thunderbird"        
+depends=('gdk-pixbuf2' 'gtk2' 'gcc-libs' 'mozilla-common' 'nss' 'libxt' 'shared-mime-info' 'alsa-lib' 'dbus-glib'  'hunspell' 'sqlite3' 'desktop-file-utils' 'libnotify' 'libevent' 'hicolor-icon-theme' 'startup-notification')
+makedepends=('unzip' 'zip' 'pkg-config' 'python2' 'wireless_tools' 'autoconf2.13' 'yasm' 'mesa')
+optdepends=('libcanberra: for sound support')
+install=thunderbird.install
+source=("ftp://ftp.mozilla.org/pub/mozilla.org/${pkgname}/releases/${pkgver}/source/${pkgname}-${pkgver}.source.tar.bz2"
+        mozconfig
+        thunderbird.desktop)       
+md5sums=('64dcfaa0aa47aa5fd8588090503fac9d'
+         '90506cdf2b36b28e8bcacd140660f50d'
+         '0f990e8a9b47db61626346d49c415c42')
+         
+build() {
+  cd "${srcdir}/comm-release"
+  
+  cp "${srcdir}/mozconfig" .mozconfig
+
+  export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib/thunderbird"
+
+  make -j1 -f client.mk build MOZ_MAKE_FLAGS="${MAKEFLAGS}"
+}
+
+package() {
+  cd "${srcdir}/comm-release"
+  make -j1 -f client.mk DESTDIR="${pkgdir}" install
+
+  for i in 16x16 22x22 24x24 32x32 48x48 256x256; do
+      install -Dm644 other-licenses/branding/thunderbird/mailicon${i/x*/}.png \
+          "$pkgdir/usr/share/icons/hicolor/$i/apps/thunderbird.png"
+  done
+
+
+  install -Dm644 "${srcdir}/thunderbird.desktop" \
+      "${pkgdir}/usr/share/applications/thunderbird.desktop"
+}
+
+# vim:set ts=2 sw=2 et:

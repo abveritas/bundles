@@ -1,0 +1,12 @@
+name=firefox-nightly
+description=The Mozilla Web-Browser
+icon=firefox-nightly.png
+desktop=firefox-nightly.desktop
+screenshot=
+url=http://www.mozilla.com
+config=external
+pkgz=alsa-lib orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libnotify pango cairo libxt mime-types nspr nss dbus-glib wget flashplugin firefox-nightly
+build=alsa-lib orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 libnotify pango cairo libxt mime-types nspr nss dbus-glib wget flashplugin firefox-nightly
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0,,,MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins
+binary=
+exec=/opt/firefox-17.0a1/firefox

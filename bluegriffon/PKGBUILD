@@ -1,0 +1,47 @@
+# maintainer : abveritas <abveritas@chakra-project.org>
+# contributor: Romain Labolle <ravomavian@gmail.com>
+
+pkgname=bluegriffon
+pkgdesc='The next-generation Web Editor'
+url='http://bluegriffon.org/'
+pkgver=1.5.2
+pkgrel=1
+_ver=$pkgver
+_dir=$pkgver
+arch=('i686' 'x86_64')
+license=('MPL' 'GPL' 'LGPL')
+source=( 'bluegriffon.desktop' 'bluegriffon.install' )
+md5sums=('701246c194207246989d220228bdbb67'
+         '42d885a1665f32babc8045b2041949ea')
+          
+depends=('libpng' 'libjpeg-turbo' 'desktop-file-utils' 'libxt' 'mime-types' 'nss' 'shared-mime-info' 'gtk2')
+[[ "$CARCH" == "x86_64" ]] && depends[0]="libpng12" && depends[1]="libjpeg-turbo"
+makedepends=('wget')
+install='bluegriffon.install'
+
+build() {
+	cd ${srcdir}
+	BG_ARCH="i686"
+	[[ "$CARCH" == "x86_64" ]] && BG_ARCH="x86_64"
+	
+	BG_SRC="BlueGriffon-${_ver}-Ubuntu11.10-${BG_ARCH}.tar.bz2"
+	BG_SRC_URI="http://bluegriffon.org/freshmeat/${_dir}/${BG_SRC}"
+	BG_MD5="http://bluegriffon.org/freshmeat/${_dir}/MD5SUMS"
+	msg "Downloading..."
+	wget -N ${BG_SRC_URI}
+	msg "Checking md5..."
+	wget -O- ${BG_MD5} 2>/dev/null | grep "${BG_SRC}" | md5sum -c --status
+	msg "Extracting..."
+	bsdtar -x -f ${BG_SRC}
+	msg "Packaging..."
+
+	mkdir -p ${pkgdir}/{usr/{bin,share/{applications,pixmaps}},opt}
+	cp -R BlueGriffon ${pkgdir}/opt/${pkgname}
+
+	ln -s /opt/${pkgname}/bluegriffon ${pkgdir}/usr/bin/${pkgname}
+	[[ "$CARCH" == "x86_64" ]] && ln -s /usr/lib/libpng.so ${pkgdir}/opt/${pkgname}/libpng12.so.0
+        install -m755 -dD ${pkgdir}/usr/share/applications/
+	install -m644 ${srcdir}/${pkgname}.desktop ${pkgdir}/usr/share/applications/
+	install -m644 ${srcdir}/BlueGriffon/chrome/icons/default/default48.png ${pkgdir}/usr/share/pixmaps/${pkgname}-icon.png
+}
+

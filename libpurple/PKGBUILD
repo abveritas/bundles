@@ -1,0 +1,46 @@
+
+# Maintainer : Anke Boersma <abveritas@chakra-project.org>
+
+
+pkgbase=('pidgin')
+pkgname=('libpurple')
+pkgver=2.10.6
+pkgrel=1
+arch=('i686' 'x86_64')
+url="http://pidgin.im/"
+license=('GPL')
+makedepends=('startup-notification' 'gtkspell' 'libxss' 'nss' 'libsasl' 'libsm' 'libidn' 'python2'
+             'hicolor-icon-theme' 'silc-toolkit' 'gstreamer0.10-base' 'farstream' 'avahi'
+             'tk' 'ca-certificates' 'intltool' 'networkmanager')
+options=('libtool')
+source=(http://downloads.sourceforge.net/${pkgbase}/${pkgbase}-${pkgver}.tar.bz2)
+sha1sums=('a0532e7ba2acd205d6a5a4e3624156a980fe3d43')
+
+build() {
+  cd "$srcdir/${pkgbase}-$pkgver"
+
+    ./configure --prefix=/usr \
+                --sysconfdir=/etc \
+                --disable-schemas-install \
+                --disable-meanwhile \
+                --disable-perl \
+                --disable-gnutls \
+                --enable-cyrus-sasl \
+                --enable-doxygen \
+                --enable-nm \
+                --with-python=/usr/bin/python \
+                --with-system-ssl-certs=/etc/ssl/certs
+    make
+}
+package_libpurple(){
+    pkgdesc="IM library extracted from Pidgin"
+    depends=('farstream' 'libsasl' 'dbus-glib' 'silc-toolkit' 'nss' 'cyrus-sasl-plugins')
+    optdepends=('dbus-python: for purple-remote and purple-url-handler')
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+
+    for dir in libpurple share/sounds share/ca-certs m4macros po
+    do
+        make -C "${dir}" DESTDIR="${pkgdir}" install
+    done
+#    rm -rf "$pkgdir/etc" || return 1
+}

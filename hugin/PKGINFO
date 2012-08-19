@@ -1,0 +1,8 @@
+name=hugin
+desktop=hugin.desktop
+icon=hugin.png
+config=external
+pkgz=icu boost-libs openexr libxmi enblend-enfuse libpano13 exiv2 lapack desktop-file-utils libcups libgnomecups libgnomeprint perl-xml-simple icon-naming-utils gnome-icon-theme libgnomecanvas libgnomeprintui gstreamer0.10-base ccache wxgtk hugin
+build=icu boost-libs boost openexr libxmi libtiff enblend-enfuse libpano13 exiv2 lapack desktop-file-utils libcups libgnomecups libart-lgpl libcups  libgnomeprint perl-xml-simple icon-naming-utils libidl2 orbit2 atk libtasn1 gnutls gdk-pixbuf2 gtk2 hicolor-icon-theme gnome-icon-theme libglade libgnomecanvas libgnomeprintui gstreamer0.10-base gstreamer0.10-base-plugins gconf ccache wxgtk libxt tclap @hugin
+env==PATH=$ORIGIN/bin:$ORIGIN/usr/bin:/usr/bin/core_perl:/usr/bin/vendor_perl:$PATH,,,LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:/lib:/usr/lib
+exec=/usr/bin/hugin

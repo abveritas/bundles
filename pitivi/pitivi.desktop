@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=PiTiVi
+GenericName=Audio-Video editor
+Comment=Editor for audio/video projects using the GStreamer framework
+Exec=pitivi
+Terminal=false
+Icon=pitivi.png
+Type=Application
+Categories=Multimedia;AudioVideo;
+Version=1.0

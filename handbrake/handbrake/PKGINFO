@@ -1,0 +1,12 @@
+name=handbrake
+version=0.9.4
+description=A high quality dvd ripper
+icon=handbrake.png
+desktop=handbrake.desktop
+screenshot=
+url=http://www.handbrake.fr
+type=Launcher
+pkgz=handbrake handbrake-cli libwebkit gstreamer0.10-base hal
+build=exempi libsoup libunique udisks gnome-disk-utility libplist usbmuxd libimobiledevice perl-xml-simple icon-naming-utils gnome-icon-theme gvfs gnome-desktop libxres gtksourceview2 gnome-menus nautilus libwnck libwebkit handbrake libwebkit gstreamer0.10-base hal
+env==
+exec=/usr/bin/ghb

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Google Chrome (dev)
+Comment=Google chrome developer web-browser
+Exec=google-chrome-dev
+Icon=google-chrome-dev.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Network;WebBrowser;Application;

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Ardour
+Comment=Multitrack hard disk recorder, including SWH and Calf plugins
+Exec=ardour
+Icon=ardour.png
+Terminal=false
+Type=Application
+X-MultipleArgs=false
+Categories=GTK;Audio;AudioVideoEditing;AudioVideo;Video;

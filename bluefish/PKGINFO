@@ -1,0 +1,10 @@
+name=bluefish
+desktop=bluefish.desktop
+icon=bluefish.png
+chroot=true
+config=external
+binary=
+pkgz=pcre gtk2 enchant desktop-file-utils shared-mime-info perl-xml-parser intltool libtool gnome-doc-utils gucharmap python2 bluefish
+build=pcre gtk2 enchant desktop-file-utils shared-mime-info perl-xml-parser intltool libtool gnome-doc-utils hicolor-icon-theme gconf gucharmap python2 bluefish
+env==
+exec=/usr/bin/bluefish

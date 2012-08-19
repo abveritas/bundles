@@ -1,0 +1,23 @@
+post_upgrade()
+{
+    sed -i '/CHROMIUM_FLAGS/s|"$| --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.205"|' "$_default"
+
+}
+
+post_install() {
+
+  post_upgrade
+
+  instructions
+
+}
+
+post_remove() {
+
+  if [ -f "$_default" ]; then
+    sed -i 's| --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=1.*[0-999]||' "$_default"
+  else
+    : # do nothing
+  fi
+
+}

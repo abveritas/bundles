@@ -1,0 +1,10 @@
+name=xournal
+desktop=xournal.desktop
+icon=xournal.png
+config=
+chroot=true
+pkgz=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 hicolor-icon-theme poppler-glib shared-mime-info desktop-file-utils libgnomecanvas xournal
+build=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 hicolor-icon-theme poppler-data poppler poppler-glib shared-mime-info desktop-file-utils libglade libart-lgpl libgnomecanvas @xournal
+env==
+exec=/usr/bin/xournal
+

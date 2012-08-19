@@ -1,0 +1,28 @@
+# Maintainer: Daniele Cocca <daniele.cocca@gmail.com>
+
+pkgname=python-paramiko
+pkgver=1.7.7.1
+pkgrel=1
+pkgdesc="Paramiko is a module for Python 2.2 (or higher) that implements the SSH2 protocol for secure (encrypted and authenticated) connections to remote machines."
+arch=(any)
+license=('LGPL')
+depends=('python2' 'pycrypto>=1.9')
+url="http://www.lag.net/paramiko/"
+source=(http://www.lag.net/paramiko/download/paramiko-$pkgver.tar.gz)
+md5sums=('ce8e2c254378312a264206f65c354d72')
+
+package() {
+  cd "$srcdir/paramiko-$pkgver"
+
+  python2 setup.py install --root="$pkgdir" --optimize=1
+  install -Dm644 README "$pkgdir/usr/share/doc/$pkgname/README"
+  install -dm755 "$pkgdir/usr/share/doc/$pkgname/demos"
+  install -m644 demos/* "$pkgdir/usr/share/doc/$pkgname/demos"
+  chmod 755 "$pkgdir/usr/share/doc/$pkgname/demos/"*.py
+
+  find "$pkgdir" -name '*.py' -print0 |xargs -0 \
+    sed -i -e 's,^#!/usr/bin/env python$,#!/usr/bin/env python2,' \
+    -e 's,^#!/usr/bin/python$,#!/usr/bin/python2,'
+}
+
+# vim:set ts=2 sw=2 et:

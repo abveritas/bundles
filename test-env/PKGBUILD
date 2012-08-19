@@ -1,0 +1,18 @@
+# Maintainer: Fabien Valthier <hcoohb@gmail.com>
+
+pkgname=test-env
+pkgver=1
+pkgrel=1
+pkgdesc="Print the environment in which the prog has been launched"
+arch=('i686' 'x86_64')
+url=""
+license=('GPL')
+depends=()
+makedepends=()
+source=(test-env.sh)
+md5sums=('6f441e8ffcd8f8e77880b539714c5549')
+
+package() {
+  mkdir -p ${pkgdir}/usr/bin
+  cp test-env.sh ${pkgdir}/usr/bin/test-env.sh
+}

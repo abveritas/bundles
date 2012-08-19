@@ -1,0 +1,28 @@
+# Maintainer: Anke Boersma <abveritas@chakra-project.org>
+
+pkgname=bluefish
+pkgver=2.2.3
+pkgrel=1
+pkgdesc="A powerful HTML editor for experienced web designers and programmers"
+arch=('i686' 'x86_64')
+url="http://bluefish.openoffice.nl/"
+license=('GPL')
+depends=('pcre' 'enchant' 'desktop-file-utils' 'shared-mime-info' 'python2')
+makedepends=('perlxml' 'intltool')
+optdepends=('gucharmap: for using the charmap plugin')
+options=('!libtool')
+install=bluefish.install
+source=(http://www.bennewitz.com/bluefish/stable/source/bluefish-${pkgver}.tar.bz2)
+md5sums=('d7d2d3893c3f100b27f2ea2e3edfb8d0')
+
+build() {
+	cd ${srcdir}/${pkgname}-${pkgver}
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+	    --enable-spell-check --disable-update-databases --disable-xml-catalog-update 
+	make 
+}
+
+package() {
+	cd ${srcdir}/${pkgname}-${pkgver}
+	make DESTDIR=${pkgdir} install 
+}

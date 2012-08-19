@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Gobby
+GenericName=Collaborative Editor
+GenericName[de]=Gobby-Gemeinschaftseditor
+Comment=Edit text files collaboratively
+Exec=gobby
+Terminal=0
+Type=Application
+Icon=gobby.png
+Encoding=UTF-8
+Categories=TextEditor;Utilities;Network;
+StartupNotify=true

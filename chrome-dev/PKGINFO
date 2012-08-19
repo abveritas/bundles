@@ -1,0 +1,8 @@
+name=chrome-dev
+desktop=chrome-dev.desktop
+icon=chrome-dev.png
+chroot=true
+pkgz=gcc-libs libjpeg-turbo krb5 libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nss gconf freetype2 cairo alsa-lib libxss hicolor-icon-theme perl libpng12 fakechroot google-talkplugin openssl-compatibility chrome-dev
+build=gcc-libs nasm libjpeg-turbo krb5 libidl2 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 nss gconf freetype2 cairo alsa-lib libxss hicolor-icon-theme perl libpng12 fakechroot google-talkplugin openssl-compatibility chrome-dev
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/opt/google/chrome/lib:$ORIGIN/usr/lib/mozilla/plugins,,,MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins
+exec=/opt/google/chrome/google-chrome

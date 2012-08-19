@@ -1,0 +1,14 @@
+name=thunderbird
+version=14.0
+description=The Mozilla Mail-Client
+desktop=thunderbird.desktop
+icon=thunderbird.png
+config=external
+url=http://www.mozilla.com
+config=external
+chroot=false
+binary=
+pkgz=libpng desktop-file-utils orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 gcc-libs mozilla-common nspr nss libxt hunspell startup-notification mime-types shared-mime-info alsa-lib dbus-glib sqlite3 zip pkgconfig python2 wireless_tools desktop-file-utils libnotify yasm libevent thunderbird
+build=autoconf2.13 @libpng desktop-file-utils orbit2 atk libtasn1 gnutls @cups libcups @gdk-pixbuf2 gtk-doc gobject-introspection @cairo @gtk2 gcc-libs mozilla-common nspr nss libxt hunspell xcb-util startup-notification mime-types shared-mime-info alsa-lib dbus-glib sqlite3 unzip zip pkgconfig python2 wireless_tools perl libproxy libcdio fuse bluez libgphoto2 desktop-file-utils libnotify yasm mesa libevent thunderbird
+env==
+exec=/usr/lib/thunderbird-14.0/thunderbird

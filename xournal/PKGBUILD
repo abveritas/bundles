@@ -1,0 +1,27 @@
+# 
+# Maintainer: Neo Kolokotronis <tetris4@gmail.com>
+
+pkgname=xournal
+pkgver=0.4.6
+pkgrel=1
+pkgdesc='Notetaking and sketching application'
+arch=('i686' 'x86_64')
+url='http://xournal.sourceforge.net/'
+license=('GPL')
+depends=('libgnomecanvas' 'poppler-glib' 'shared-mime-info' 'desktop-file-utils' 'hicolor-icon-theme')
+optdepends=('ghostscript: import PS/PDF files as bitmap backgrounds')
+install=xournal.install
+source=("http://downloads.sourceforge.net/xournal/xournal-${pkgver}.tar.gz")
+sha1sums=('4ebe79e3df7155d2a09c341537a639ac2332d4c8')
+
+build() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+
+	./configure --prefix=/usr LIBS='-lm -lz'
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make DESTDIR="${pkgdir}" install desktop-install
+}

@@ -1,0 +1,33 @@
+pkgname=playonlinux
+pkgver=4.0.14
+pkgrel=1
+pkgdesc="GUI for managing Windows and DOS programs under linux"
+url="http://www.playonlinux.com/"
+license="GPL"
+depends=('imagemagick' 'xterm' 'wxpython' 'cabextract' 'unzip' 'mesa-demos' 'xdg-user-dirs')
+arch=('any')
+source=(http://www.playonlinux.com/script_files/PlayOnLinux/$pkgver/PlayOnLinux_$pkgver.tar.gz)
+md5sums=('f06384f6548cb6c1e429283d1f99b51e')
+screenshot=('http://www.playonlinux.com/images/presentation/capture2.en.png')
+ 
+build() {
+  cd "$srcdir/$pkgname"
+  install -d $pkgdir/usr/share/$pkgname
+  install -d $pkgdir/usr/bin 
+}
+package(){
+
+  cp -r $srcdir/$pkgname/ $pkgdir/usr/share/
+
+  # For playonlinux
+  echo "#!/bin/bash" > $pkgdir/usr/bin/$pkgname 
+  echo "/usr/share/$pkgname/$pkgname \"\$@\"" >> $pkgdir/usr/bin/$pkgname
+  chmod +x  $pkgdir/usr/bin/$pkgname
+
+  # For playonlinux-cmd
+  echo "#!/bin/bash" > $pkgdir/usr/bin/$pkgname-cmd
+  echo "/usr/share/$pkgname/$pkgname-cmd \"\$@\"" >> $pkgdir/usr/bin/$pkgname-cmd
+  chmod +x  $pkgdir/usr/bin/$pkgname-cmd
+  install -D -m644 $pkgdir/usr/share/$pkgname/etc/PlayOnLinux.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+}
+ 

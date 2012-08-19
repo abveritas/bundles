@@ -1,0 +1,56 @@
+#
+# Maintainer (x86_64): Daniele Cocca <jmc@chakra-project.org>
+# Original CCR Contributor: Renan Biegelmeyer (RenanBS) <renan.biegel[at]gmail[.dot]com>
+
+pkgname=eclipse
+pkgver=4.2
+_internal_pkgver=4.2
+pkgrel=2
+_date=201206081400
+pkgdesc="An IDE for Java and other languages"
+arch=('i686' 'x86_64')
+url="http://eclipse.org"
+depends=('openjdk6' 'gtk2' 'unzip' 'libwebkit' 'libxtst')
+install=${pkgname}.install
+makedepends=('zip')
+license=("EPL/1.1")
+source=("ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops4/R-${pkgver}-${_date}/${pkgname}-SDK-${pkgver}-linux-gtk.tar.gz"
+        'http://www.bearfruit.org/files/eclipse-icon-clean.svg'
+        'eclipse.sh'
+        'eclipse.desktop'
+        'eclipse.ini.patch')
+md5sums=('506b9f4e3919ebe3d6a717cd9bef5e07'
+         '77cff7543ccf7e177cb6667f5a20ce19'
+         '7ea99a30fbaf06ec29261541b8eb1e23'
+         '20a9dd7d1c746b422ba43c32832c05a9'
+         '9169aa2912de41bfddca94b759d9ab7a')
+
+[ "${CARCH}" = "x86_64" ] && {
+  source[0]="ftp://ftp.osuosl.org/pub/eclipse/eclipse/downloads/drops4/R-${pkgver}-${_date}/${pkgname}-SDK-${pkgver}-linux-gtk-${CARCH}.tar.gz"
+  md5sums[0]='804938dd087c310d8bfd54c8024afbbd'
+}
+
+package() {
+  cd "${srcdir}/eclipse"
+
+  # install eclipse
+  install -m755 -d "${pkgdir}/usr/share"
+  mv "${srcdir}/eclipse" "${pkgdir}/usr/share/"
+
+  # install misc
+  install -d ${pkgdir}/usr/bin ${pkgdir}/usr/share/applications ${pkgdir}/usr/share/icons/hicolor/{16x16,32x32,48x48}/apps
+
+  # Not needed for the bundle!
+  # install -m755 "${srcdir}/eclipse.sh" "${pkgdir}/usr/bin/eclipse"
+
+  install -m644 "${srcdir}/eclipse.desktop" "${pkgdir}/usr/share/applications/"
+  ln -s "/usr/share/eclipse/plugins/org.eclipse.sdk_${_internal_pkgver}.v${_date}/eclipse.png"   "${pkgdir}/usr/share/icons/hicolor/16x16/apps/eclipse.png"
+  ln -s "/usr/share/eclipse/plugins/org.eclipse.sdk_${_internal_pkgver}.v${_date}/eclipse32.png" "${pkgdir}/usr/share/icons/hicolor/32x32/apps/eclipse.png"
+  ln -s "/usr/share/eclipse/plugins/org.eclipse.sdk_${_internal_pkgver}.v${_date}/eclipse48.png" "${pkgdir}/usr/share/icons/hicolor/48x48/apps/eclipse.png"
+
+  # install icon
+  install -Dm644 "${srcdir}/eclipse-icon-clean.svg" \
+    "${pkgdir}/usr/share/icons/hicolor/scalable/apps/eclipse.svg"
+}
+
+# vim:set ts=2 sw=2 et:

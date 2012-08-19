@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=bluefish
+Comment=A powerful HTML editor
+Exec=bluefish
+Icon=bluefish.png
+Terminal=0
+Type=Application
+Encoding=UTF-8
+Categories=Development;Application;

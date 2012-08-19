@@ -1,0 +1,38 @@
+
+# Maintainer: Anke Boersma <abveritas@chakra-project.org>
+
+pkgname=filezilla
+_pkgname=FileZilla
+pkgver=3.5.3
+pkgrel=1
+pkgdesc="Fast and reliable FTP, FTPS and SFTP client."
+arch=('i686' 'x86_64')
+url="http://filezilla-project.org/"
+license=('GPL2')
+depends=('dbus-core' 'hicolor-icon-theme' 'libidn' 'libjpeg' 'xdg-utils' 'wxgtk')
+install=filezilla.install
+source=("http://downloads.sourceforge.net/project/$pkgname/${_pkgname}_Client/$pkgver/${_pkgname}_${pkgver}_src.tar.bz2"
+ 	"http://kde-look.org/CONTENT/content-files/141546-filezilla-oxygen-theme.tar.gz")
+
+md5sums=('a1a2848db0c5c8f3321ebe4ee3842e31'
+         'cc6b7f92cab532d2eb88eb7d931de756')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  ./configure \
+    --disable-manualupdatecheck \
+    --disable-autoupdatecheck \
+    --prefix=/usr \
+    --with-tinyxml=builtin
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+
+  mkdir -p $pkgdir/usr/share/filezilla/resources/oxygen
+  cp -rf $srcdir/oxygen/* $pkgdir/usr/share/filezilla/resources/
+}

@@ -1,0 +1,34 @@
+
+pkgname=audacity
+pkgver=2.0.1
+pkgrel=1
+pkgdesc="A program that lets you manipulate digital audio waveforms"
+arch=('i686' 'x86_64')
+url="http://audacity.sourceforge.net/"
+license=('GPL')
+depends=('libvorbis' 'libmad' 'libid3tag' 'wxgtk' 'libsamplerate' 'lame' 'hicolor-icon-theme'
+  'shared-mime-info' 'desktop-file-utils' 'redland' 'jack' 'soundtouch' 'ffmpeg')
+makedepends=('zip' 'python' 'pkgconfig')
+options=('!makeflags')
+install="${pkgname}.install"
+source=("http://audacity.googlecode.com/files/${pkgname}-minsrc-${pkgver}.tar.bz2")
+sha1sums=('366a10f3bd71c4d84c29437fff1e27a8560f691b')
+
+build() {
+  cd "${srcdir}/${pkgname}-src-${pkgver}"
+  WX_CONFIG=/usr/bin/wx-config ./configure --prefix=/usr \
+    --with-portaudio --with-libsamplerate \
+    --without-libresample --with-libmad \
+    --with-ffmpeg --with-id3tag --with-libflac \
+    --with-vorbis --with-libexpat \
+    --with-libsndfile --with-soundtouch \
+    --enable-unicode --without-taglib
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-src-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
+
+# vim:set ts=2 sw=2 et:

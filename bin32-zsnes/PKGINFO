@@ -1,0 +1,9 @@
+name=zsnes
+desktop=zsnes.desktop
+icon=zsnes.png
+deps=
+pkgz=lib32-glibc lib32-gcc-libs lib32-sdl lib32-libgl lib32-libpng lib32-ncurses lib32-libxdamage zsnes
+build=lib32-glibc lib32-gcc-libs lib32-sdl lib32-libxau lib32-libxdmcp lib32-libxcb lib32-libxcomposite lib32-libx11 lib32-libxext lib32-libxxf86vm lib32-libdrm lib32-libgl lib32-zlib lib32-libpng lib32-ncurses lib32-libxfixes lib32-libxdamage bin32-zsnes
+env==LD_LIBRARY_PATH=$ORIGIN/opt/lib32:$ORIGIN/opt/lib32/lib
+exec=/usr/bin/zsnes
+

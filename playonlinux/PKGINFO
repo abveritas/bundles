@@ -1,0 +1,9 @@
+name=playonlinux
+desktop=PlayOnLinux.desktop
+icon=playonlinux.png
+config=external
+chroot=true
+pkgz=imagemagick xterm atk gtk2 wxgtk python wxpython cabextract bzip2 unzip mesa-demos xdg-user-dirs playonlinux
+build=imagemagick xterm libgnomecups libgnomeprint libgnomecanvas gnome-icon-theme libgnomeprintui atk gtk2 wxgtk python wxpython cabextract unzip mesa-demos xdg-user-dirs cabextract bzip2 unzip playonlinux
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/wx:$ORIGIN/usr/lib/python2.7:$ORIGIN/usr/bin
+exec=/usr/bin/playonlinux

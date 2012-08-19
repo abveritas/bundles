@@ -1,0 +1,10 @@
+name=ardour
+desktop=ardour.desktop
+icon=ardour.png
+chroot=
+config=external
+pkgz=alsa-lib flac libvorbis libsndfile readline libsamplerate jack qjackctl desktop-file-utils ardour fftw ladspa  swh-plugins fftw2 gtk2 lv2 fluidsynth lash calf-git
+build=alsa-lib flac libvorbis libsndfile readline libsamplerate jack qjackctl desktop-file-utils ardour fftw ladspa libxml2 perl-xml-parser swh-plugins fftw2 gtk2 @lv2 fluidsynth lash calf-git
+env==LD_LIBRARY_PATH=/lib:/usr/lib,,,LADSPA_PATH=$ORIGIN/usr/lib/ladspa,,,LADSPA_RDF_PATH=$ORIGIN/usr/share/ladspa/rdf,,,LV2_PATH=$ORIGIN/usr/lib/lv2
+exec=/opt/Ardour_x86_64-3.0beta5_13072/bin/ardour3
+

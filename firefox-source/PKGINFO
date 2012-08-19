@@ -1,0 +1,15 @@
+name=firefox-source
+version=3.6.15
+description=The Mozilla Web-Browser
+icon=firefox.png
+desktop=firefox.desktop
+screenshot=http://www.ghacks.net/wp-content/uploads/2008/11/firefox_default_header1-500x338.jpg
+url=http://www.mozilla.com
+type=Launcher
+config=external
+pkgz=orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 startup-notification mime-types mozilla-common desktop-file-utils libgnomeui python alsa-lib libidl2 libevent flashplugin-square xulrunner firefox  
+build=zip pkgconfig diffutils python startup-notification glibc wireless_tools autoconf2.13 orbit2 atk libtasn1 gnutls libcups gdk-pixbuf2 gtk2 mozilla-common nss libxt hunspell mime-types dbus-glib alsa-lib libidl2 desktop-file-utils libevent udisks libplist libusb usbmuxd libimobiledevice gnome-mime-data gnome-common libunique libxml2 libproxy sqlite3 gconf libgnome-keyring gobject-introspection libsoup libsoup-gnome libbonobo smbclient samba gnome-disk-utility gvfs libgnomecanvas gnome-vfs libgnome libbonoboui libgnomeui flashplugin-square xulrunner firefox 
+env==LD_LIBRARY_PATH=$ORIGIN/lib:$ORIGIN/usr/lib:$ORIGIN/usr/lib/gtk-2.0:$ORIGIN/usr/lib/xulrunner-1.9.2:MOZ_PLUGIN_PATH=$ORIGIN/usr/lib/mozilla/plugins
+binary=/usr/lib/firefox-3.6/firefox
+exec=/firefox_launcher.sh
+
